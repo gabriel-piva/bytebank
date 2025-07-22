@@ -1,0 +1,10 @@
+echo 'Check for linting errors and run tests before commiting...'
+
+npx lint-staged || (echo 'Liting erros or tests failed. Please fix them before commiting.' && exit 1)
+
+npm test || {
+  echo 'Unit tests failed. Please fix them before committing.'
+  exit 1
+}
+
+echo 'Check done!'
