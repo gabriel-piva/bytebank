@@ -1,0 +1,117 @@
+.transfers-chart-container {
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: "Inter", sans-serif;
+}
+
+.chart-header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0;
+  }
+}
+
+.chart-wrapper {
+  height: 400px;
+  margin-bottom: 32px;
+  position: relative;
+
+  canvas {
+    max-width: 100%;
+    height: 100%;
+  }
+}
+
+.chart-footer {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f9fafb;
+
+  .stat-label {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .stat-value {
+    font-size: 20px;
+    font-weight: 700;
+
+    &.sent {
+      color: #dc2626;
+    }
+
+    &.received {
+      color: #059669;
+    }
+
+    &.balance {
+      color: #dc2626;
+    }
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .transfers-chart-container {
+    padding: 16px;
+    margin: 0 16px;
+  }
+
+  .chart-header {
+    h2 {
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  .chart-wrapper {
+    height: 300px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .stat-item {
+    padding: 12px;
+
+    .stat-value {
+      font-size: 18px;
+    }
+  }
+}
