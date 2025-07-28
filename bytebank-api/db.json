@@ -1,0 +1,76 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Maria Eduarda Silva",
+      "email": "maria.eduard@bytebank.com",
+      "password": "12345",
+      "avatar_url": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
+      "created_at": "2025-07-2",
+      "updated_at": "2025-07-2"
+    },
+    {
+      "id": "2",
+      "name": "João Carlos Souza",
+      "email": "joao.souza@bytebank.com",
+      "password": "12345",
+      "avatar_url": "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341",
+      "created_at": "2025-07-26",
+      "updated_at": "2025-07-26"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "acc-1",
+      "user_id": "1",
+      "account_type": "corrente",
+      "card_number": "1234567890123456",
+      "expiration_date": "12/30",
+      "balance": "1250.00",
+      "created_at": "2025-07-18"
+    },
+    {
+      "id": "acc-2",
+      "user_id": "2",
+      "account_type": "poupanca",
+      "card_number": "1234567890123456",
+      "expiration_date": "12/30",
+      "balance": "500.00",
+      "created_at": "2025-07-26"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "txn-1",
+      "account_id": "acc-1",
+      "amount": "1000.00",
+      "description": "Depósito inicial",
+      "transaction_date": "2025-07-26T10:00:00.000Z",
+      "category": "entrada"
+    },
+    {
+      "id": "txn-2",
+      "account_id": "acc-2",
+      "amount": "500.00",
+      "description": "Depósito inicial",
+      "transaction_date": "2025-07-26T10:05:00.000Z",
+      "category": "entrada"
+    },
+    {
+      "id": "txn-3",
+      "account_id": "acc-1",
+      "amount": "500.00",
+      "description": "Salário",
+      "transaction_date": "2025-07-26T15:00:00.000Z",
+      "category": "entrada"
+    },
+    {
+      "id": "txn-4",
+      "account_id": "acc-1",
+      "amount": "250.00",
+      "description": "Pagamento conta de luz",
+      "transaction_date": "2025-07-26T18:00:00.000Z",
+      "category": "saida"
+    }
+  ]
+}
