@@ -7,14 +7,13 @@ import {
 import { apiFetch } from "./client";
 
 const TRANSACTION_ENDPOINT = "transactions";
-const TRANSACTION_CATEGORIES_ENDPOINT = "transaction-categories";
 
 export async function getTransactionsByAccountId(
   accountId: string
 ): Promise<Transaction[]> {
   try {
     const response = await apiFetch(
-      `${TRANSACTION_ENDPOINT}/findByAccountId?accountId=${encodeURIComponent(accountId)}&orderBy=desc`
+      `${TRANSACTION_ENDPOINT}/accounts/${accountId}`
     );
     return response.json();
   } catch (error) {
@@ -50,7 +49,7 @@ export async function getTransactionCategories(): Promise<
   TransactionCategory[]
 > {
   try {
-    const response = await apiFetch(TRANSACTION_CATEGORIES_ENDPOINT);
+    const response = await apiFetch("transaction-categories");
     return response.json();
   } catch (error) {
     console.error("Falha ao buscar categorias de transação:", error);

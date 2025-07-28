@@ -3,11 +3,9 @@ import { apiFetch } from "./client";
 
 const ACCOUNT_ENDPOINT = "accounts";
 
-export async function getAccountsByUserId(userId: string): Promise<Account[]> {
+export async function getAccountsByUserId(userId: string): Promise<Account> {
   try {
-    const response = await apiFetch(
-      `${ACCOUNT_ENDPOINT}/findByUserId?userId=${encodeURIComponent(userId)}`
-    );
+    const response = await apiFetch(`${ACCOUNT_ENDPOINT}/user/${userId}`);
     return response.json();
   } catch (error) {
     console.error("Falha ao buscar dados da conta:", error);

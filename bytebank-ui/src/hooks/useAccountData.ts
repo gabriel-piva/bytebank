@@ -10,7 +10,7 @@ export function useAccountData(userId: string | null | undefined) {
     queryFn: async (): Promise<Account | null> => {
       if (!userId) return null;
       const accountsData = await getAccountsByUserId(userId);
-      return accountsData?.[0] || null;
+      return accountsData || null;
     },
     enabled: !!userId,
   });

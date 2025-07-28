@@ -3,6 +3,7 @@
 import Logotipo from "@/assets/logotipo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useLogin } from "@/hooks/useLogin";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -10,9 +11,13 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const { mutateAsync: login, isPending, error } = useLogin();
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Email:", email, "Senha:", password);
+    await login({
+      email: email,
+      password: password,
+    });
   };
 
   return (
@@ -58,11 +63,17 @@ export default function LoginPage() {
           required
         />
       </div>
+      {error && (
+        <p className="mb-4 text-sm text-red-500">
+          Login inválido. Tente novamente.
+        </p>
+      )}
       <Button
         type="submit"
         className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)]"
+        disabled={isPending}
       >
-        Entrar
+        {isPending ? "Entrando..." : "Entrar"}
       </Button>
     </form>
   );

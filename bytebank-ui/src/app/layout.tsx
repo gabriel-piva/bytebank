@@ -1,5 +1,6 @@
 "use client";
 
+import { AuthProvider } from "@/context/AuthContex";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Space_Grotesk } from "next/font/google";
 import React from "react";
@@ -23,9 +24,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body>
         <Toaster richColors position="top-right" />
         <QueryClientProvider client={queryClient}>
-          <main className="overflow-x-hiddren min-h-screen w-full">
-            {children}
-          </main>
+          <AuthProvider>
+            <main className="overflow-x-hiddren min-h-screen w-full">
+              {children}
+            </main>
+          </AuthProvider>
         </QueryClientProvider>
       </body>
     </html>

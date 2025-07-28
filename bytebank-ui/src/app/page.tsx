@@ -1,6 +1,12 @@
+import { useAuth } from "@/hooks/useAuth";
 import { redirect } from "next/navigation";
 
 export default function RootPage() {
-  // TODO: Verificar se o usuário está autenticado
-  redirect("/login");
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
+    redirect("/login");
+  } else {
+    redirect("/home");
+  }
 }

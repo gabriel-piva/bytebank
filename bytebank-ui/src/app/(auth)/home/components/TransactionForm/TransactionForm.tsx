@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/select";
 import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 import { useEditTransaction } from "@/hooks/useEditTransaction";
-import { useTransactionCategoriesData } from "@/hooks/useTransactionCategoriesData";
 import {
   Transaction,
+  TransactionCategory,
   TransactionCreate,
   TransactionEdit,
   TransactionFormState,
@@ -42,8 +42,16 @@ export default function TransactionForm({
   transactionToEdit,
   onCancelEdit,
 }: TransactionFormProps) {
-  const { transactionCategories, isLoading: isLoadingCategories } =
-    useTransactionCategoriesData();
+  const transactionCategories: TransactionCategory[] = [
+    {
+      id: "entrada",
+      name: "Entrada",
+    },
+    {
+      id: "saida",
+      name: "Saída",
+    },
+  ];
 
   const [formState, setFormState] =
     useState<TransactionFormState>(EMPTY_FORM_STATE);
@@ -200,19 +208,12 @@ export default function TransactionForm({
           <Select
             value={formState.categoryId}
             onValueChange={(value) => handleChange("categoryId", value)}
-            disabled={isLoadingCategories || isPending}
           >
             <SelectTrigger
               id="transaction-category"
               className="h-44 w-full border-[var(--outline)] bg-[var(--surface)] text-sm"
             >
-              <SelectValue
-                placeholder={
-                  isLoadingCategories
-                    ? "Carregando..."
-                    : "Selecione o tipo de transação"
-                }
-              />
+              <SelectValue placeholder={"Selecione o tipo de transação"} />
             </SelectTrigger>
             {transactionCategories && transactionCategories.length > 0 && (
               <SelectContent>
