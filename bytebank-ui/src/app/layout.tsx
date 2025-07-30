@@ -1,6 +1,6 @@
 "use client";
 
-import { AuthProvider } from "@/context/AuthContex";
+import { AuthProvider } from "@/context/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Space_Grotesk } from "next/font/google";
 import React from "react";

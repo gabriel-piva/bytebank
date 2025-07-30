@@ -50,14 +50,6 @@
     },
     {
       "id": "txn-2",
-      "account_id": "acc-2",
-      "amount": "500.00",
-      "description": "Depósito inicial",
-      "transaction_date": "2025-07-26T10:05:00.000Z",
-      "category": "entrada"
-    },
-    {
-      "id": "txn-3",
       "account_id": "acc-1",
       "amount": "500.00",
       "description": "Salário",
@@ -65,12 +57,188 @@
       "category": "entrada"
     },
     {
-      "id": "txn-4",
+      "id": "txn-3",
       "account_id": "acc-1",
       "amount": "250.00",
       "description": "Pagamento conta de luz",
       "transaction_date": "2025-07-26T18:00:00.000Z",
       "category": "saida"
+    },
+    {
+      "id": "txn-4",
+      "account_id": "acc-1",
+      "amount": "150.00",
+      "description": "Supermercado",
+      "transaction_date": "2025-07-25T14:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-5",
+      "account_id": "acc-1",
+      "amount": "300.00",
+      "description": "Freelance",
+      "transaction_date": "2025-07-25T10:00:00.000Z",
+      "category": "entrada"
+    },
+    {
+      "id": "txn-6",
+      "account_id": "acc-1",
+      "amount": "80.00",
+      "description": "Uber",
+      "transaction_date": "2025-07-24T20:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-7",
+      "account_id": "acc-1",
+      "amount": "200.00",
+      "description": "Restaurante",
+      "transaction_date": "2025-07-24T19:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-8",
+      "account_id": "acc-1",
+      "amount": "1200.00",
+      "description": "Bônus",
+      "transaction_date": "2025-07-23T16:00:00.000Z",
+      "category": "entrada"
+    },
+    {
+      "id": "txn-9",
+      "account_id": "acc-1",
+      "amount": "90.00",
+      "description": "Farmácia",
+      "transaction_date": "2025-07-23T15:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-10",
+      "account_id": "acc-1",
+      "amount": "400.00",
+      "description": "Shopping",
+      "transaction_date": "2025-07-22T18:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-11",
+      "account_id": "acc-1",
+      "amount": "600.00",
+      "description": "Consultoria",
+      "transaction_date": "2025-07-22T14:00:00.000Z",
+      "category": "entrada"
+    },
+    {
+      "id": "txn-12",
+      "account_id": "acc-1",
+      "amount": "75.00",
+      "description": "Netflix",
+      "transaction_date": "2025-07-21T12:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-13",
+      "account_id": "acc-1",
+      "amount": "180.00",
+      "description": "Academia",
+      "transaction_date": "2025-07-21T10:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-14",
+      "account_id": "acc-1",
+      "amount": "350.00",
+      "description": "Gasolina",
+      "transaction_date": "2025-07-20T16:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-15",
+      "account_id": "acc-1",
+      "amount": "800.00",
+      "description": "Projeto extra",
+      "transaction_date": "2025-07-20T14:00:00.000Z",
+      "category": "entrada"
+    },
+    {
+      "id": "txn-16",
+      "account_id": "acc-1",
+      "amount": "120.00",
+      "description": "Cinema",
+      "transaction_date": "2025-07-19T20:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-17",
+      "account_id": "acc-1",
+      "amount": "450.00",
+      "description": "Presente",
+      "transaction_date": "2025-07-19T18:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-18",
+      "account_id": "acc-1",
+      "amount": "700.00",
+      "description": "Aulas particulares",
+      "transaction_date": "2025-07-19T15:00:00.000Z",
+      "category": "entrada"
+    },
+    {
+      "id": "txn-19",
+      "account_id": "acc-1",
+      "amount": "95.00",
+      "description": "Spotify",
+      "transaction_date": "2025-07-18T12:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-20",
+      "account_id": "acc-1",
+      "amount": "220.00",
+      "description": "Livros",
+      "transaction_date": "2025-07-18T10:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-21",
+      "account_id": "acc-1",
+      "amount": "550.00",
+      "description": "Trabalho freelance",
+      "transaction_date": "2025-07-17T16:00:00.000Z",
+      "category": "entrada"
+    },
+    {
+      "id": "txn-22",
+      "account_id": "acc-1",
+      "amount": "160.00",
+      "description": "Barber shop",
+      "transaction_date": "2025-07-17T14:00:00.000Z",
+      "category": "saida"
+    },
+    {
+      "id": "txn-23",
+      "account_id": "acc-1",
+      "amount": "300.00",
+      "description": "Investimento",
+      "transaction_date": "2025-07-16T12:00:00.000Z",
+      "category": "investment"
+    },
+    {
+      "id": "txn-24",
+      "account_id": "acc-1",
+      "amount": "500.00",
+      "description": "Transferência para poupança",
+      "transaction_date": "2025-07-16T10:00:00.000Z",
+      "category": "transfer"
+    },
+    {
+      "id": "txn-25",
+      "account_id": "acc-2",
+      "amount": "500.00",
+      "description": "Depósito inicial",
+      "transaction_date": "2025-07-26T10:05:00.000Z",
+      "category": "entrada"
     }
   ]
 }

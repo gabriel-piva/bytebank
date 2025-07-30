@@ -101,3 +101,28 @@ export async function editTransaction(
     );
   }
 }
+
+export async function getExtratoTransacoes(
+  accountId: string,
+  page: number = 1,
+  pageSize: number = 11
+): Promise<{
+  data: Transaction[];
+  total: number;
+  page: number;
+  pageSize: number;
+}> {
+  try {
+    const response = await apiFetch(
+      `${TRANSACTION_ENDPOINT}/extrato/transacoes?accountId=${accountId}&page=${page}&pageSize=${pageSize}`
+    );
+    return response.json();
+  } catch (error) {
+    console.error("Falha ao buscar extrato da conta:", error);
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : "Erro desconhecido ao buscar extrato da conta."
+    );
+  }
+}

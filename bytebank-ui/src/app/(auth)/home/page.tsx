@@ -3,7 +3,7 @@
 import Loader from "@/components/ui/loader";
 import { useAccountData } from "@/hooks/useAccountData";
 import { useAuth } from "@/hooks/useAuth";
-import { useTransactionData } from "@/hooks/useTransactionsData";
+import { useExtratoInfiniteScroll } from "@/hooks/useTransactionsData";
 import { Transaction } from "@/types/transactionEntities";
 import { useState } from "react";
 import BalanceCard from "./components/BalanceCard/BalanceCard";
@@ -20,9 +20,16 @@ export default function HomePage() {
     invalidateAccountQuery,
   } = useAccountData(user?.id);
 
-  const { transactions, invalidateTransactionsQuery } = useTransactionData(
-    account?.id
-  );
+  const { 
+    transactions, 
+    invalidateExtratoQuery,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+    isLoading: isLoadingExtrato,
+    isError: isErrorExtrato,
+    error: errorExtrato,
+  } = useExtratoInfiniteScroll(account?.id);
 
   const [transactionToEdit, setTransactionToEdit] =
     useState<Transaction | null>(null);
@@ -59,7 +66,7 @@ export default function HomePage() {
                 transactionToEdit={transactionToEdit}
                 onSuccess={() => {
                   invalidateAccountQuery();
-                  invalidateTransactionsQuery();
+                  invalidateExtratoQuery();
                   handleClearTransactionToEdit();
                 }}
                 onCancelEdit={handleClearTransactionToEdit}
@@ -74,6 +81,12 @@ export default function HomePage() {
             account={account}
             user={user}
             onSetEditTransaction={handleSetTransactionToEdit}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            fetchNextPage={fetchNextPage}
+            isLoading={isLoadingExtrato}
+            isError={isErrorExtrato}
+            error={errorExtrato}
           />
         </div>
       </div>

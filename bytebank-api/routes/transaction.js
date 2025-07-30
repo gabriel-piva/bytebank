@@ -12,6 +12,38 @@ router.get("/accounts/:accountId", authMiddleware, (req, res) => {
 	res.json(transactions);
 });
 
+// GET extrato paginação, filtro e ordenação
+router.get("/extrato/transacoes", authMiddleware, (req, res) => {
+  const db = readDB();
+  const { accountId, page = 1, pageSize = 12 } = req.query;
+  if (!accountId) {
+    return res.status(400).json({ error: "accountId é obrigatório." });
+  }
+  
+  // Filtro por conta
+  let transactions = db.transactions.filter(t => t.account_id === accountId);
+  
+  // Filtro para excluir categorias investment e transfer
+  transactions = transactions.filter(t => !["investment", "transfer"].includes(t.category));
+  
+  // Ordenação por data desc
+  transactions = transactions.sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date));
+  
+  // Paginação
+  const pageNum = parseInt(page, 10);
+  const size = parseInt(pageSize, 10);
+  const start = (pageNum - 1) * size;
+  const end = start + size;
+  const paginated = transactions.slice(start, end);
+  
+  res.json({
+    data: paginated,
+    total: transactions.length, // Total após filtro
+    page: pageNum,
+    pageSize: size
+  });
+});
+
 // POST
 router.post("/", authMiddleware, (req, res) => {
 	const db = readDB();
