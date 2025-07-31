@@ -8,40 +8,81 @@ const { updateAccountBalance } = require("../utils/balance");
 router.get("/accounts/:accountId", authMiddleware, (req, res) => {
 	const db = readDB();
 	const { accountId } = req.params;
-	const transactions = db.transactions.filter(t => t.account_id === accountId);
-	res.json(transactions);
+	const { page = 1, pageSize = 12, order = "desc", category, maxAmount, minAmount } = req.query;
+
+	// Transactions By Account
+	let transactions = db.transactions.filter(t => t.account_id === accountId);
+
+	// Params Validation
+	const pageNum = Math.max(1, parseInt(page)) || 1;
+	const size = Math.min(Math.max(1, parseInt(pageSize)) || 12, 200);
+
+	// Filters
+	if (category) {
+		transactions = transactions.filter(t => t.category === category);
+	}
+	if (minAmount) {
+		const min = parseFloat(minAmount);
+		transactions = transactions.filter(t => parseFloat(t.amount) >= min);
+	}
+	if (maxAmount) {
+		const max = parseFloat(maxAmount);
+		transactions = transactions.filter(t => parseFloat(t.amount) <= max);
+	}
+
+	// Order
+	transactions = transactions.sort((a, b) => {
+		const dateA = new Date(a.transaction_date);
+		const dateB = new Date(b.transaction_date);
+		return order === "asc" ? dateA - dateB : dateB - dateA;
+	});
+
+	// Pagination
+	const start = (pageNum - 1) * size;
+	const end = start + size;
+	const paginatedTransactions = transactions.slice(start, end);
+
+	const totalTransactions = transactions.length;
+	const totalPages = Math.ceil(totalTransactions / size);
+
+	res.json({
+		transactions: paginatedTransactions,
+		pagination: {
+			page: pageNum,
+			totalPages: totalPages,
+			totalTransactions: totalTransactions
+		}
+	});
 });
 
 // GET extrato paginação, filtro e ordenação
 router.get("/extrato/transacoes", authMiddleware, (req, res) => {
-  const db = readDB();
-  const { accountId, page = 1, pageSize = 12 } = req.query;
-  if (!accountId) {
-    return res.status(400).json({ error: "accountId é obrigatório." });
-  }
-  
-  // Filtro por conta
-  let transactions = db.transactions.filter(t => t.account_id === accountId);
-  
-  // Filtro para excluir categorias investment e transfer
-  transactions = transactions.filter(t => !["investment", "transfer"].includes(t.category));
-  
-  // Ordenação por data desc
-  transactions = transactions.sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date));
-  
-  // Paginação
-  const pageNum = parseInt(page, 10);
-  const size = parseInt(pageSize, 10);
-  const start = (pageNum - 1) * size;
-  const end = start + size;
-  const paginated = transactions.slice(start, end);
-  
-  res.json({
-    data: paginated,
-    total: transactions.length, // Total após filtro
-    page: pageNum,
-    pageSize: size
-  });
+	const db = readDB();
+	const { accountId, page = 1, pageSize = 12 } = req.query;
+	if (!accountId) {
+		return res.status(400).json({ error: "accountId é obrigatório." });
+	}
+
+	let transactions = db.transactions.filter(t => t.account_id === accountId);
+
+	// Ordenação por data desc
+	transactions = transactions.sort(
+		(a, b) => new Date(b.transaction_date) - new Date(a.transaction_date)
+	);
+
+	// Paginação
+	const pageNum = parseInt(page, 10);
+	const size = parseInt(pageSize, 10);
+	const start = (pageNum - 1) * size;
+	const end = start + size;
+	const paginated = transactions.slice(start, end);
+
+	res.json({
+		data: paginated,
+		total: transactions.length, // Total após filtro
+		page: pageNum,
+		pageSize: size
+	});
 });
 
 // POST
@@ -49,7 +90,7 @@ router.post("/", authMiddleware, (req, res) => {
 	const db = readDB();
 
 	const { account_id, amount, description, category } = req.body;
-	if (!account_id || !amount || !description || !category) {
+	if (!account_id || !amount || !category) {
 		return res.status(400).json({ error: "Campos obrigatórios ausentes." });
 	}
 
@@ -108,8 +149,7 @@ router.put("/:id", authMiddleware, (req, res) => {
 		...transaction,
 		amount: parseFloat(amount).toFixed(2),
 		description,
-		category,
-		updated_at: new Date().toISOString()
+		category
 	};
 	db.transactions[transactionIndex] = updatedTransaction;
 

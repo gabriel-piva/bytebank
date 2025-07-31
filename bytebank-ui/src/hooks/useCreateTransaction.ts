@@ -22,7 +22,8 @@ export function useCreateTransaction({
       if (onMutationSuccess) onMutationSuccess(data);
     },
     onError: (err) => {
-      toast.error(
+      toast.error(`Falha ao incluir transação.`);
+      console.log(
         `Falha ao incluir transação: ${err.message || "Erro desconhecido"}`
       );
     },

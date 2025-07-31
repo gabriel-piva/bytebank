@@ -1,20 +1,35 @@
 import {
   Transaction,
-  TransactionCategory,
   TransactionCreate,
   TransactionEdit,
+  TransactionPaginated,
+  TransactionParams,
 } from "@/types/transactionEntities";
 import { apiFetch } from "./client";
 
 const TRANSACTION_ENDPOINT = "transactions";
 
 export async function getTransactionsByAccountId(
-  accountId: string
-): Promise<Transaction[]> {
+  accountId: string,
+  params: TransactionParams
+): Promise<TransactionPaginated> {
+  let fetchUrl = `${TRANSACTION_ENDPOINT}/accounts/${accountId}?`;
+
+  params = {
+    ...params,
+    page: params.page ?? 1,
+    pageSize: params.pageSize ?? 50,
+  };
+
+  // Set Search Params
+  fetchUrl += `page=${params.page}&pageSize=${params.pageSize}`;
+  if (params.order) fetchUrl += `&order=${params.order}`;
+  if (params.category) fetchUrl += `&category=${params.category}`;
+  if (params.maxAmount) fetchUrl += `&maxAmount=${params.maxAmount}`;
+  if (params.minAmount) fetchUrl += `&minAmount=${params.minAmount}`;
+
   try {
-    const response = await apiFetch(
-      `${TRANSACTION_ENDPOINT}/accounts/${accountId}`
-    );
+    const response = await apiFetch(fetchUrl);
     return response.json();
   } catch (error) {
     console.error("Falha ao buscar transações da conta:", error);
@@ -45,31 +60,11 @@ export async function createTransaction(
   }
 }
 
-export async function getTransactionCategories(): Promise<
-  TransactionCategory[]
-> {
-  try {
-    const response = await apiFetch("transaction-categories");
-    return response.json();
-  } catch (error) {
-    console.error("Falha ao buscar categorias de transação:", error);
-    throw new Error(
-      error instanceof Error
-        ? error.message
-        : "Erro desconhecido ao buscar categorias de transação."
-    );
-  }
-}
-
-export async function deleteTransaction(
-  transactionId: string
-): Promise<true | false | null> {
+export async function deleteTransaction(transactionId: string) {
   try {
     await apiFetch(`${TRANSACTION_ENDPOINT}/${transactionId}`, {
       method: "DELETE",
     });
-
-    return true;
   } catch (error) {
     console.error("Falha ao deletar transação:", error);
     throw new Error(
@@ -81,16 +76,14 @@ export async function deleteTransaction(
 }
 
 export async function editTransaction(
+  id: string,
   transactionData: TransactionEdit
 ): Promise<Transaction> {
   try {
-    const response = await apiFetch(
-      `${TRANSACTION_ENDPOINT}/${transactionData.id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(transactionData),
-      }
-    );
+    const response = await apiFetch(`${TRANSACTION_ENDPOINT}/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(transactionData),
+    });
     return response.json();
   } catch (error) {
     console.error("Falha ao editar transação:", error);

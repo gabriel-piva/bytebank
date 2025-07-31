@@ -6,8 +6,8 @@
       "email": "maria.eduard@bytebank.com",
       "password": "12345",
       "avatar_url": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
-      "created_at": "2025-07-2",
-      "updated_at": "2025-07-2"
+      "created_at": "2025-01-02",
+      "updated_at": "2025-07-02"
     },
     {
       "id": "2",
@@ -23,16 +23,16 @@
     {
       "id": "acc-1",
       "user_id": "1",
-      "account_type": "corrente",
+      "account_type": "Corrente",
       "card_number": "1234567890123456",
       "expiration_date": "12/30",
-      "balance": "1250.00",
-      "created_at": "2025-07-18"
+      "balance": "2630.00",
+      "created_at": "2025-01-02"
     },
     {
       "id": "acc-2",
       "user_id": "2",
-      "account_type": "poupanca",
+      "account_type": "Poupança",
       "card_number": "1234567890123456",
       "expiration_date": "12/30",
       "balance": "500.00",
@@ -45,7 +45,7 @@
       "account_id": "acc-1",
       "amount": "1000.00",
       "description": "Depósito inicial",
-      "transaction_date": "2025-07-26T10:00:00.000Z",
+      "transaction_date": "2025-01-02T10:00:00.000Z",
       "category": "entrada"
     },
     {
@@ -53,7 +53,7 @@
       "account_id": "acc-1",
       "amount": "500.00",
       "description": "Salário",
-      "transaction_date": "2025-07-26T15:00:00.000Z",
+      "transaction_date": "2025-01-05T15:00:00.000Z",
       "category": "entrada"
     },
     {
@@ -61,7 +61,7 @@
       "account_id": "acc-1",
       "amount": "250.00",
       "description": "Pagamento conta de luz",
-      "transaction_date": "2025-07-26T18:00:00.000Z",
+      "transaction_date": "2025-01-10T18:00:00.000Z",
       "category": "saida"
     },
     {
@@ -69,7 +69,7 @@
       "account_id": "acc-1",
       "amount": "150.00",
       "description": "Supermercado",
-      "transaction_date": "2025-07-25T14:00:00.000Z",
+      "transaction_date": "2025-01-15T14:00:00.000Z",
       "category": "saida"
     },
     {
@@ -77,7 +77,7 @@
       "account_id": "acc-1",
       "amount": "300.00",
       "description": "Freelance",
-      "transaction_date": "2025-07-25T10:00:00.000Z",
+      "transaction_date": "2025-02-05T10:00:00.000Z",
       "category": "entrada"
     },
     {
@@ -85,7 +85,7 @@
       "account_id": "acc-1",
       "amount": "80.00",
       "description": "Uber",
-      "transaction_date": "2025-07-24T20:00:00.000Z",
+      "transaction_date": "2025-02-12T20:00:00.000Z",
       "category": "saida"
     },
     {
@@ -93,7 +93,7 @@
       "account_id": "acc-1",
       "amount": "200.00",
       "description": "Restaurante",
-      "transaction_date": "2025-07-24T19:00:00.000Z",
+      "transaction_date": "2025-02-14T19:00:00.000Z",
       "category": "saida"
     },
     {
@@ -101,7 +101,7 @@
       "account_id": "acc-1",
       "amount": "1200.00",
       "description": "Bônus",
-      "transaction_date": "2025-07-23T16:00:00.000Z",
+      "transaction_date": "2025-03-01T16:00:00.000Z",
       "category": "entrada"
     },
     {
@@ -109,7 +109,7 @@
       "account_id": "acc-1",
       "amount": "90.00",
       "description": "Farmácia",
-      "transaction_date": "2025-07-23T15:00:00.000Z",
+      "transaction_date": "2025-03-10T15:00:00.000Z",
       "category": "saida"
     },
     {
@@ -117,7 +117,7 @@
       "account_id": "acc-1",
       "amount": "400.00",
       "description": "Shopping",
-      "transaction_date": "2025-07-22T18:00:00.000Z",
+      "transaction_date": "2025-03-20T18:00:00.000Z",
       "category": "saida"
     },
     {
@@ -125,7 +125,7 @@
       "account_id": "acc-1",
       "amount": "600.00",
       "description": "Consultoria",
-      "transaction_date": "2025-07-22T14:00:00.000Z",
+      "transaction_date": "2025-04-05T14:00:00.000Z",
       "category": "entrada"
     },
     {
@@ -133,7 +133,7 @@
       "account_id": "acc-1",
       "amount": "75.00",
       "description": "Netflix",
-      "transaction_date": "2025-07-21T12:00:00.000Z",
+      "transaction_date": "2025-04-15T12:00:00.000Z",
       "category": "saida"
     },
     {
@@ -141,7 +141,7 @@
       "account_id": "acc-1",
       "amount": "180.00",
       "description": "Academia",
-      "transaction_date": "2025-07-21T10:00:00.000Z",
+      "transaction_date": "2025-04-20T10:00:00.000Z",
       "category": "saida"
     },
     {
@@ -149,7 +149,7 @@
       "account_id": "acc-1",
       "amount": "350.00",
       "description": "Gasolina",
-      "transaction_date": "2025-07-20T16:00:00.000Z",
+      "transaction_date": "2025-05-05T16:00:00.000Z",
       "category": "saida"
     },
     {
@@ -157,7 +157,7 @@
       "account_id": "acc-1",
       "amount": "800.00",
       "description": "Projeto extra",
-      "transaction_date": "2025-07-20T14:00:00.000Z",
+      "transaction_date": "2025-05-10T14:00:00.000Z",
       "category": "entrada"
     },
     {
@@ -165,7 +165,7 @@
       "account_id": "acc-1",
       "amount": "120.00",
       "description": "Cinema",
-      "transaction_date": "2025-07-19T20:00:00.000Z",
+      "transaction_date": "2025-05-15T20:00:00.000Z",
       "category": "saida"
     },
     {
@@ -173,7 +173,7 @@
       "account_id": "acc-1",
       "amount": "450.00",
       "description": "Presente",
-      "transaction_date": "2025-07-19T18:00:00.000Z",
+      "transaction_date": "2025-06-01T18:00:00.000Z",
       "category": "saida"
     },
     {
@@ -181,7 +181,7 @@
       "account_id": "acc-1",
       "amount": "700.00",
       "description": "Aulas particulares",
-      "transaction_date": "2025-07-19T15:00:00.000Z",
+      "transaction_date": "2025-06-10T15:00:00.000Z",
       "category": "entrada"
     },
     {
@@ -189,7 +189,7 @@
       "account_id": "acc-1",
       "amount": "95.00",
       "description": "Spotify",
-      "transaction_date": "2025-07-18T12:00:00.000Z",
+      "transaction_date": "2025-06-15T12:00:00.000Z",
       "category": "saida"
     },
     {
@@ -197,7 +197,7 @@
       "account_id": "acc-1",
       "amount": "220.00",
       "description": "Livros",
-      "transaction_date": "2025-07-18T10:00:00.000Z",
+      "transaction_date": "2025-06-20T10:00:00.000Z",
       "category": "saida"
     },
     {
@@ -205,7 +205,7 @@
       "account_id": "acc-1",
       "amount": "550.00",
       "description": "Trabalho freelance",
-      "transaction_date": "2025-07-17T16:00:00.000Z",
+      "transaction_date": "2025-07-05T16:00:00.000Z",
       "category": "entrada"
     },
     {
@@ -213,7 +213,7 @@
       "account_id": "acc-1",
       "amount": "160.00",
       "description": "Barber shop",
-      "transaction_date": "2025-07-17T14:00:00.000Z",
+      "transaction_date": "2025-07-10T14:00:00.000Z",
       "category": "saida"
     },
     {
@@ -221,16 +221,16 @@
       "account_id": "acc-1",
       "amount": "300.00",
       "description": "Investimento",
-      "transaction_date": "2025-07-16T12:00:00.000Z",
-      "category": "investment"
+      "transaction_date": "2025-07-15T12:00:00.000Z",
+      "category": "entrada"
     },
     {
       "id": "txn-24",
       "account_id": "acc-1",
       "amount": "500.00",
       "description": "Transferência para poupança",
-      "transaction_date": "2025-07-16T10:00:00.000Z",
-      "category": "transfer"
+      "transaction_date": "2025-07-20T10:00:00.000Z",
+      "category": "saida"
     },
     {
       "id": "txn-25",

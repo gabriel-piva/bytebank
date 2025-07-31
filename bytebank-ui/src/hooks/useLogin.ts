@@ -23,8 +23,5 @@ export function useLogin() {
         redirect("/home");
       }
     },
-    onError: () => {
-      toast.error("Falha no login.");
-    },
   });
 }

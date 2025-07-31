@@ -1,6 +1,9 @@
-import { getTransactionsByAccountId, getExtratoTransacoes } from "@/api/transactionService";
-import { Transaction } from "@/types/transactionEntities";
-import { useQuery, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
+import {
+  getExtratoTransacoes,
+  getTransactionsByAccountId,
+} from "@/api/transactionService";
+import { Transaction, TransactionParams } from "@/types/transactionEntities";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 
 // Tipo para a resposta da API de extrato
 interface ExtratoResponse {
@@ -10,14 +13,28 @@ interface ExtratoResponse {
   pageSize: number;
 }
 
-export function useTransactionData(accountId: string | null | undefined) {
+export function useTransactionsData(
+  accountId: string | null | undefined,
+  params: Omit<TransactionParams, "page">
+) {
   const queryClient = useQueryClient();
 
-  const queryResult = useQuery<Transaction[] | null>({
-    queryKey: ["transactions", accountId],
-    queryFn: async (): Promise<Transaction[] | null> => {
+  const queryResult = useInfiniteQuery({
+    queryKey: ["transactions", accountId, params],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam }: { pageParam: number }) => {
       if (!accountId) return null;
-      return await getTransactionsByAccountId(accountId);
+      return await getTransactionsByAccountId(accountId, {
+        ...params,
+        page: pageParam,
+      });
+    },
+    getNextPageParam: (lastPage) => {
+      if (!lastPage) return undefined;
+      const { pagination } = lastPage;
+      return pagination.page < pagination.totalPages
+        ? pagination.page + 1
+        : undefined;
     },
     enabled: !!accountId,
   });
@@ -27,10 +44,13 @@ export function useTransactionData(accountId: string | null | undefined) {
       queryKey: ["transactions", accountId],
     });
   };
+  const allTransactions =
+    queryResult.data?.pages.flatMap((page) => page?.transactions ?? []) ?? [];
 
   return {
     ...queryResult,
-    transactions: queryResult.data || null,
+    allTransactions,
+    transactionsPages: queryResult.data?.pages || [],
     invalidateTransactionsQuery,
   };
 }
@@ -43,14 +63,16 @@ export function useExtratoInfiniteScroll(accountId: string | null | undefined) {
     initialPageParam: 1,
     queryFn: async ({ pageParam }: { pageParam: number }) => {
       if (!accountId) throw new Error("AccountId é obrigatório");
-      
+
       // Usar sempre 12 itens por página
       const pageSize = 12;
-      
+
       const result = await getExtratoTransacoes(accountId, pageParam, pageSize);
-      
-      console.log(`✅ Página ${pageParam} carregada: ${result.data.length} itens`);
-      
+
+      console.log(
+        `✅ Página ${pageParam} carregada: ${result.data.length} itens`
+      );
+
       return result;
     },
     enabled: !!accountId,
@@ -58,9 +80,12 @@ export function useExtratoInfiniteScroll(accountId: string | null | undefined) {
       const currentPage = lastPage.page;
       const totalItems = lastPage.total;
       const itemsInCurrentPage = lastPage.data.length;
-      
+
       // Se a página atual tem itens E ainda há mais itens para carregar
-      if (itemsInCurrentPage > 0 && currentPage * lastPage.pageSize < totalItems) {
+      if (
+        itemsInCurrentPage > 0 &&
+        currentPage * lastPage.pageSize < totalItems
+      ) {
         return currentPage + 1;
       }
       return undefined; // Não há mais páginas
@@ -77,7 +102,8 @@ export function useExtratoInfiniteScroll(accountId: string | null | undefined) {
   };
 
   // Flatten todas as transações de todas as páginas
-  const allTransactions = queryResult.data?.pages.flatMap((page: ExtratoResponse) => page.data) || [];
+  const allTransactions =
+    queryResult.data?.pages.flatMap((page: ExtratoResponse) => page.data) || [];
 
   return {
     ...queryResult,

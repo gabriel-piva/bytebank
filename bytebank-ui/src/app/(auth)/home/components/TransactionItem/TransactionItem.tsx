@@ -6,19 +6,15 @@ import IconEdit from "@/assets/icons/icon-edit.svg";
 import Loader from "@/components/ui/loader";
 import { useDeleteTransaction } from "@/hooks/useDeleteTransaction";
 import { Transaction } from "@/types/transactionEntities";
-import { User } from "@/types/userEntities";
 import { formatDisplayDateWithYear } from "@/utils/date/formatDisplayDate";
 import { useState } from "react";
 import { DeleteModal } from "../DeleteModal/DeleteModal";
 
 interface TransactionItemProps {
-  user: User | null;
   transaction: Transaction;
   onSetEditTransaction: (transaction: Transaction) => void;
 }
-
 export default function TransactionItem({
-  user,
   transaction,
   onSetEditTransaction,
 }: TransactionItemProps) {
@@ -26,47 +22,31 @@ export default function TransactionItem({
   const [selectedItem, setSelectedItem] = useState<Transaction | null>(null);
 
   const { mutateAsync: requestDeleteTransaction, isPending } =
-    useDeleteTransaction({
-      userId: user?.id,
-      onSuccessCallback: () => {
-        handleCloseDeleteModal();
-      },
-      onErrorCallback: () => {
-        handleCloseDeleteModal();
-      },
-    });
+    useDeleteTransaction();
 
   const handleOpenDeleteModal = (item: Transaction) => {
     setSelectedItem(item);
     setIsModalOpen(true);
   };
-
   const handleCloseDeleteModal = () => {
     setIsModalOpen(false);
     setSelectedItem(null);
   };
-
   const handleConfirmDeleteItem = () => {
     if (selectedItem) {
-      requestDeleteTransaction({
-        transactionId: selectedItem.id,
-        accountId: selectedItem.account_id,
-      });
+      requestDeleteTransaction(selectedItem.id);
     }
   };
-
   const handleEditClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onSetEditTransaction(transaction);
   };
-
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     handleOpenDeleteModal(transaction);
   };
 
-  const isIncome = transaction.category_name === "Entrada";
-
+  const isIncome = transaction.category === "entrada";
   return (
     <li
       key={transaction.id}
@@ -93,7 +73,11 @@ export default function TransactionItem({
 
         <div className="flex flex-col">
           <span className="text-sm font-medium text-gray-700">
-            {transaction.description || transaction.category_name}
+            {transaction.description
+              ? transaction.description
+              : transaction.category === "entrada"
+                ? "Entrada"
+                : "Saída"}
           </span>
           <span className="text-xs text-gray-500">
             {formatDisplayDateWithYear(transaction.transaction_date)}

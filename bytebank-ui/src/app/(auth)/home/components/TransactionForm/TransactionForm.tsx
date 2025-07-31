@@ -12,9 +12,11 @@ import {
 } from "@/components/ui/select";
 import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 import { useEditTransaction } from "@/hooks/useEditTransaction";
+import { Account } from "@/types/accountEntities";
 import {
   Transaction,
   TransactionCategory,
+  TransactionCategoryOption,
   TransactionCreate,
   TransactionEdit,
   TransactionFormState,
@@ -23,56 +25,80 @@ import { formatCurrency } from "@/utils/currency/formatCurrency";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+const EMPTY_FORM_STATE: TransactionFormState = {
+  category: "entrada",
+  amount: "",
+  description: "",
+};
+const TRANSACTION_CATEGORIES: TransactionCategoryOption[] = [
+  {
+    id: "entrada",
+    name: "Entrada",
+  },
+  {
+    id: "saida",
+    name: "Saída",
+  },
+] as const;
+
+const DESCRIPTION_SUGGESTIONS = {
+  entrada: [
+    "Salário",
+    "Freelance",
+    "Investimentos",
+    "Reembolso",
+    "Presente",
+    "Venda de item",
+    "Rendimentos",
+    "Transferência recebida",
+  ],
+  saida: [
+    "Mercado",
+    "Aluguel",
+    "Conta de luz",
+    "Internet",
+    "Transporte",
+    "Lazer",
+    "Saúde",
+    "Educação",
+    "Transferência enviada",
+  ],
+};
+
 interface TransactionFormProps {
-  accountId: string;
+  account: Account;
   onSuccess?: () => void;
   transactionToEdit?: Transaction | null;
   onCancelEdit?: () => void;
 }
-
-const EMPTY_FORM_STATE: TransactionFormState = {
-  categoryId: "",
-  amount: "",
-  description: "",
-};
-
 export default function TransactionForm({
-  accountId,
+  account,
   onSuccess: onFormSuccess,
   transactionToEdit,
   onCancelEdit,
 }: TransactionFormProps) {
-  const transactionCategories: TransactionCategory[] = [
-    {
-      id: "entrada",
-      name: "Entrada",
-    },
-    {
-      id: "saida",
-      name: "Saída",
-    },
-  ];
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // * Handle Form State
 
   const [formState, setFormState] =
     useState<TransactionFormState>(EMPTY_FORM_STATE);
   const [initialEditState, setInitialEditState] =
     useState<TransactionFormState | null>(null);
 
-  const isEditMode = !!transactionToEdit;
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // * Handle Mutations
 
   const handleMutationSuccess = () => {
     setFormState(EMPTY_FORM_STATE);
     setInitialEditState(null);
     if (onFormSuccess) onFormSuccess();
   };
-
   const {
     mutateAsync: requestCreateTransaction,
     isPending: isCreating,
     isError: isCreateError,
     reset: resetCreateMutation,
   } = useCreateTransaction({ onSuccess: handleMutationSuccess });
-
   const {
     mutateAsync: requestEditTransaction,
     isPending: isEditing,
@@ -82,6 +108,10 @@ export default function TransactionForm({
 
   const isPending = isCreating || isEditing;
   const hasError = isCreateError || isEditError;
+  const isEditMode = !!transactionToEdit;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // * Handle Form Initial State
 
   useEffect(() => {
     return () => {
@@ -93,18 +123,15 @@ export default function TransactionForm({
   useEffect(() => {
     if (isEditMode && transactionToEdit) {
       let amountInCentsString = "";
-
       const numericValue = parseFloat(
         transactionToEdit.amount.replace(",", ".")
       );
-
       if (!isNaN(numericValue)) {
         amountInCentsString = String(Math.round(numericValue * 100));
       }
-
       const initialData = {
-        categoryId: transactionToEdit.category_id || "",
-        amount: formatCurrency(amountInCentsString) || "",
+        category: transactionToEdit.category,
+        amount: formatCurrency(amountInCentsString),
         description: transactionToEdit.description || "",
       };
       setFormState(initialData);
@@ -117,58 +144,85 @@ export default function TransactionForm({
     }
   }, [transactionToEdit, isEditMode, resetCreateMutation, resetEditMutation]);
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // * Handle Form Validation when Edit
+
   const hasFormChanged = () => {
     if (!isEditMode || !initialEditState) {
       return false;
     }
     return (
-      formState.categoryId !== initialEditState.categoryId ||
+      formState.category !== initialEditState.category ||
       formState.amount !== initialEditState.amount ||
       formState.description !== initialEditState.description
     );
   };
-
-  const canSubmit = formState.categoryId && formState.amount;
+  const canSubmit = formState.category && formState.amount;
   const disableSubmitButton =
     !canSubmit || isPending || (isEditMode && !hasFormChanged());
+
+  type FormErrors = {
+    amount?: string;
+  };
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // * Handle Submit Form
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (disableSubmitButton) return;
 
-    if (!formState.categoryId || !formState.amount) return;
+    setFormErrors({});
 
+    if (!formState.category || !formState.amount) return;
     const parsedAmount = parseFloat(
       formState.amount.replace(/\./g, "").replace(",", ".")
     );
-
     if (isNaN(parsedAmount)) {
       toast.error("Valor inválido.");
+      setFormErrors({ amount: "Valor inválido" });
       return;
+    }
+
+    if (formState.category === "saida") {
+      const accountBalance = parseFloat(account.balance);
+      if (parsedAmount > accountBalance) {
+        setFormErrors({
+          amount: `Saldo insuficiente (Saldo atual: R$ ${account.balance})`,
+        });
+        setFormState((prev) => ({ ...prev, amount: "" }));
+        toast.error("Saldo insuficiente para realizar esta transação.");
+        return;
+      }
     }
 
     if (isEditMode && transactionToEdit) {
       const updatedData: TransactionEdit = {
-        id: transactionToEdit.id,
-        amount: parsedAmount,
+        amount: `${parsedAmount}`,
         description: formState.description,
-        categoryId: formState.categoryId,
-        transactionDate: new Date().toISOString(),
+        category: formState.category as TransactionCategory,
       };
-      await requestEditTransaction(updatedData);
+      await requestEditTransaction({
+        id: transactionToEdit.id,
+        transactionData: updatedData,
+      });
     } else {
       const transactionData: TransactionCreate = {
-        accountId,
-        amount: parsedAmount,
+        account_id: account.id,
+        amount: `${parsedAmount}`,
         description: formState.description,
-        categoryId: formState.categoryId,
-        transactionDate: new Date().toISOString(),
+        category: formState.category as TransactionCategory,
       };
       await requestCreateTransaction(transactionData);
     }
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // * Handle Form Change
+
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormErrors({});
     const value = e.target.value.replace(/\D/g, "");
     if (value === "") {
       setFormState((prev) => ({ ...prev, amount: "" }));
@@ -176,10 +230,12 @@ export default function TransactionForm({
     }
     setFormState((prev) => ({ ...prev, amount: formatCurrency(value) }));
   };
-
   const handleChange = (field: keyof TransactionFormState, value: string) => {
+    setFormErrors({});
     setFormState((prev) => ({ ...prev, [field]: value }));
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   return (
     <form
@@ -206,8 +262,8 @@ export default function TransactionForm({
             {isEditMode ? "Alterar Tipo de Transação" : "Tipo de Transação"}
           </Label>
           <Select
-            value={formState.categoryId}
-            onValueChange={(value) => handleChange("categoryId", value)}
+            value={formState.category}
+            onValueChange={(value) => handleChange("category", value)}
           >
             <SelectTrigger
               id="transaction-category"
@@ -215,15 +271,13 @@ export default function TransactionForm({
             >
               <SelectValue placeholder={"Selecione o tipo de transação"} />
             </SelectTrigger>
-            {transactionCategories && transactionCategories.length > 0 && (
-              <SelectContent>
-                {transactionCategories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
-                    {category.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            )}
+            <SelectContent>
+              {TRANSACTION_CATEGORIES.map((category) => (
+                <SelectItem key={category.id} value={category.id}>
+                  {category.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
           </Select>
         </div>
 
@@ -244,9 +298,14 @@ export default function TransactionForm({
               value={formState.amount}
               onChange={handleAmountChange}
               placeholder="0,00"
-              className="h-11 border-[var(--outline)] bg-[var(--surface)] pl-8"
+              className={`h-11 border-[var(--outline)] bg-[var(--surface)] pl-8 ${
+                formErrors.amount ? "border-red-500" : ""
+              }`}
             />
           </div>
+          {formErrors.amount && (
+            <p className="text-sm text-red-500">{formErrors.amount}</p>
+          )}
         </div>
 
         <div className="w-full space-y-2">
@@ -263,7 +322,15 @@ export default function TransactionForm({
             onChange={(e) => handleChange("description", e.target.value)}
             placeholder="Ex: Pagamento de conta"
             className="h-11 border-[var(--outline)] bg-[var(--surface)]"
+            list="description-suggestions"
           />
+          <datalist id="description-suggestions">
+            {DESCRIPTION_SUGGESTIONS[
+              formState.category as "entrada" | "saida"
+            ].map((suggestion) => (
+              <option key={suggestion} value={suggestion} />
+            ))}
+          </datalist>
         </div>
 
         <Button

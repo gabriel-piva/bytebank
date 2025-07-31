@@ -1,6 +1,6 @@
 import { editTransaction } from "@/api/transactionService";
 import { Transaction, TransactionEdit } from "@/types/transactionEntities";
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 interface UseEditTransactionProps {
@@ -9,14 +9,15 @@ interface UseEditTransactionProps {
 
 export function useEditTransaction({
   onSuccess: onMutationSuccess,
-}: UseEditTransactionProps = {}): UseMutationResult<
-  Transaction,
-  Error,
-  TransactionEdit
-> {
-  const mutation = useMutation<Transaction, Error, TransactionEdit>({
-    mutationFn: (transactionData: TransactionEdit) =>
-      editTransaction(transactionData),
+}: UseEditTransactionProps) {
+  const mutation = useMutation({
+    mutationFn: ({
+      id,
+      transactionData,
+    }: {
+      id: string;
+      transactionData: TransactionEdit;
+    }) => editTransaction(id, transactionData),
     onSuccess: (data) => {
       toast.success("Transação editada com sucesso!");
       if (onMutationSuccess) onMutationSuccess(data);
