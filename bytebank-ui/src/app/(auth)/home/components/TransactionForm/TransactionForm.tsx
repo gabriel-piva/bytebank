@@ -112,10 +112,6 @@ export default function TransactionForm({
   const hasError = isCreateError || isEditError;
   const isEditMode = !!transactionToEdit;
 
-  useEffect(() => {
-    console.log(formState);
-  }, [formState]);
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // * Handle Form Initial State
 
