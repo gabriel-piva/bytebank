@@ -7,6 +7,7 @@ import Loader from "@/components/ui/loader";
 import { useDeleteTransaction } from "@/hooks/useDeleteTransaction";
 import { Transaction } from "@/types/transactionEntities";
 import { formatDisplayDateWithYear } from "@/utils/date/formatDisplayDate";
+import { FileSearchIcon } from "lucide-react";
 import { useState } from "react";
 import { DeleteModal } from "../DeleteModal/DeleteModal";
 
@@ -23,6 +24,34 @@ export default function TransactionItem({
 
   const { mutateAsync: requestDeleteTransaction, isPending } =
     useDeleteTransaction();
+
+  const handleViewAttachment = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (!transaction.attachment) return;
+    const base64Data = transaction.attachment.includes("base64,")
+      ? transaction.attachment.split("base64,")[1]
+      : transaction.attachment;
+    try {
+      const byteCharacters = atob(base64Data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const mimeMatch = transaction.attachment.match(/^data:(.*);base64,/);
+      const mimeType = mimeMatch?.[1] || "application/pdf";
+
+      const blob = new Blob([byteArray], { type: mimeType });
+      const blobUrl = URL.createObjectURL(blob);
+      window.open(blobUrl, "_blank");
+      setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+      }, 1000);
+    } catch (err) {
+      console.error("Erro ao abrir o comprovante:", err);
+    }
+  };
 
   const handleOpenDeleteModal = (item: Transaction) => {
     setSelectedItem(item);
@@ -95,6 +124,15 @@ export default function TransactionItem({
         </span>
 
         <div className="flex items-center gap-1">
+          {transaction.attachment && (
+            <button
+              onClick={handleViewAttachment}
+              title="Visualizar comprovante"
+              className="mr-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-[#14ae5c33] text-[#14AE5C] transition-colors duration-200 ease-in-out hover:bg-[#14ae5c55]"
+            >
+              <FileSearchIcon className="size-[12px] stroke-current" />
+            </button>
+          )}
           <button
             onClick={handleEditClick}
             title={`Editar ${transaction.description}`}

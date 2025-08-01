@@ -24,11 +24,13 @@ import {
 import { formatCurrency } from "@/utils/currency/formatCurrency";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
+import AttachmentInput from "../AttachmentInput";
 
 const EMPTY_FORM_STATE: TransactionFormState = {
   category: "entrada",
   amount: "",
   description: "",
+  attachment: undefined,
 };
 const TRANSACTION_CATEGORIES: TransactionCategoryOption[] = [
   {
@@ -110,6 +112,10 @@ export default function TransactionForm({
   const hasError = isCreateError || isEditError;
   const isEditMode = !!transactionToEdit;
 
+  useEffect(() => {
+    console.log(formState);
+  }, [formState]);
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // * Handle Form Initial State
 
@@ -133,6 +139,7 @@ export default function TransactionForm({
         category: transactionToEdit.category,
         amount: formatCurrency(amountInCentsString),
         description: transactionToEdit.description || "",
+        attachment: transactionToEdit.attachment,
       };
       setFormState(initialData);
       setInitialEditState(initialData);
@@ -154,7 +161,8 @@ export default function TransactionForm({
     return (
       formState.category !== initialEditState.category ||
       formState.amount !== initialEditState.amount ||
-      formState.description !== initialEditState.description
+      formState.description !== initialEditState.description ||
+      formState.attachment !== initialEditState.attachment
     );
   };
   const canSubmit = formState.category && formState.amount;
@@ -197,11 +205,22 @@ export default function TransactionForm({
       }
     }
 
+    let attachmentBase64: string | undefined;
+    if (formState.attachment && formState.attachment instanceof File) {
+      attachmentBase64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(formState.attachment as File);
+      });
+    }
+
     if (isEditMode && transactionToEdit) {
       const updatedData: TransactionEdit = {
         amount: `${parsedAmount}`,
         description: formState.description,
         category: formState.category as TransactionCategory,
+        ...(attachmentBase64 && { attachment: attachmentBase64 }),
       };
       await requestEditTransaction({
         id: transactionToEdit.id,
@@ -213,6 +232,7 @@ export default function TransactionForm({
         amount: `${parsedAmount}`,
         description: formState.description,
         category: formState.category as TransactionCategory,
+        ...(attachmentBase64 && { attachment: attachmentBase64 }),
       };
       await requestCreateTransaction(transactionData);
     }
@@ -332,6 +352,20 @@ export default function TransactionForm({
             ))}
           </datalist>
         </div>
+
+        <AttachmentInput
+          value={
+            formState.attachment instanceof File
+              ? formState.attachment
+              : undefined
+          }
+          onChange={(file) =>
+            setFormState((prev) => ({ ...prev, attachment: file }))
+          }
+          existingAttachment={
+            isEditMode ? transactionToEdit.attachment : undefined
+          }
+        />
 
         <Button
           type="submit"

@@ -55,43 +55,23 @@ router.get("/accounts/:accountId", authMiddleware, (req, res) => {
 	});
 });
 
-// GET extrato paginação, filtro e ordenação
-router.get("/extrato/transacoes", authMiddleware, (req, res) => {
-	const db = readDB();
-	const { accountId, page = 1, pageSize = 12 } = req.query;
-	if (!accountId) {
-		return res.status(400).json({ error: "accountId é obrigatório." });
-	}
-
-	let transactions = db.transactions.filter(t => t.account_id === accountId);
-
-	// Ordenação por data desc
-	transactions = transactions.sort(
-		(a, b) => new Date(b.transaction_date) - new Date(a.transaction_date)
-	);
-
-	// Paginação
-	const pageNum = parseInt(page, 10);
-	const size = parseInt(pageSize, 10);
-	const start = (pageNum - 1) * size;
-	const end = start + size;
-	const paginated = transactions.slice(start, end);
-
-	res.json({
-		data: paginated,
-		total: transactions.length, // Total após filtro
-		page: pageNum,
-		pageSize: size
-	});
-});
-
 // POST
 router.post("/", authMiddleware, (req, res) => {
 	const db = readDB();
 
-	const { account_id, amount, description, category } = req.body;
+	const { account_id, amount, description, category, attachment } = req.body;
+
+	// Field Validation
 	if (!account_id || !amount || !category) {
 		return res.status(400).json({ error: "Campos obrigatórios ausentes." });
+	}
+	if (attachment) {
+		const MAX_BASE64_SIZE = 100 * 1024;
+		const base64Size = Buffer.byteLength(attachment, "utf8");
+
+		if (base64Size > MAX_BASE64_SIZE) {
+			return res.status(400).json({ error: "Comprovante muito grande (máx. 100KB)." });
+		}
 	}
 
 	const accountIndex = db.accounts.findIndex(acc => acc.id === account_id);
@@ -107,7 +87,8 @@ router.post("/", authMiddleware, (req, res) => {
 		amount: parseFloat(amount).toFixed(2),
 		description,
 		category,
-		transaction_date: new Date().toISOString()
+		transaction_date: new Date().toISOString(),
+		...(attachment !== undefined && { attachment })
 	};
 
 	db.transactions.push(newTransaction);
@@ -121,7 +102,7 @@ router.post("/", authMiddleware, (req, res) => {
 router.put("/:id", authMiddleware, (req, res) => {
 	const db = readDB();
 	const id = req.params.id;
-	const { amount, description, category } = req.body;
+	const { amount, description, category, attachment } = req.body;
 
 	const transactionIndex = db.transactions.findIndex(t => t.id === id);
 	if (transactionIndex === -1)
@@ -131,6 +112,15 @@ router.put("/:id", authMiddleware, (req, res) => {
 	const accountIndex = db.accounts.findIndex(acc => acc.id === transaction.account_id);
 	if (accountIndex === -1) return res.status(404).json({ error: "Conta não encontrada." });
 	const account = db.accounts[accountIndex];
+
+	if (attachment) {
+		const MAX_BASE64_SIZE = 100 * 1024;
+		const base64Size = Buffer.byteLength(attachment, "utf8");
+
+		if (base64Size > MAX_BASE64_SIZE) {
+			return res.status(400).json({ error: "Comprovante muito grande (máx. 100KB)." });
+		}
+	}
 
 	const revertResult = updateAccountBalance(
 		account,
@@ -145,11 +135,19 @@ router.put("/:id", authMiddleware, (req, res) => {
 	if (applyResult.error) return res.status(400).json({ error: applyResult.error });
 	db.accounts[accountIndex].balance = applyResult.account.balance;
 
+	let updatedAttachment = transaction.attachment;
+	if (!attachment) {
+		updatedAttachment = undefined;
+	} else if (attachment && attachment !== transaction.attachment) {
+		updatedAttachment = attachment;
+	}
+
 	const updatedTransaction = {
 		...transaction,
 		amount: parseFloat(amount).toFixed(2),
 		description,
-		category
+		category,
+		attachment: updatedAttachment
 	};
 	db.transactions[transactionIndex] = updatedTransaction;
 

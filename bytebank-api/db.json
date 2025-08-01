@@ -26,7 +26,7 @@
       "account_type": "Corrente",
       "card_number": "1234567890123456",
       "expiration_date": "12/30",
-      "balance": "2630.00",
+      "balance": "2700.00",
       "created_at": "2025-01-02"
     },
     {
@@ -239,6 +239,14 @@
       "description": "Depósito inicial",
       "transaction_date": "2025-07-26T10:05:00.000Z",
       "category": "entrada"
+    },
+    {
+      "id": "1754043040292",
+      "account_id": "acc-1",
+      "amount": "70.00",
+      "description": "Freelance",
+      "category": "entrada",
+      "transaction_date": "2025-08-01T10:10:40.292Z"
     }
   ]
 }

@@ -5,6 +5,7 @@ export interface Transaction {
   description: string;
   transaction_date: string;
   category: TransactionCategory;
+  attachment?: string;
 }
 export interface TransactionParams {
   page?: number;
@@ -27,16 +28,19 @@ export interface TransactionCreate {
   amount: string;
   description: string;
   category: TransactionCategory;
+  attachment?: string;
 }
 export interface TransactionEdit {
   amount: string;
   description: string;
   category: TransactionCategory;
+  attachment?: string;
 }
 export interface TransactionFormState {
   amount: string;
   description: string;
   category: string;
+  attachment?: File | string;
 }
 export type TransactionCategory = "entrada" | "saida";
 export interface TransactionCategoryOption {
