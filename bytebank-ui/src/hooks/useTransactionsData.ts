@@ -1,15 +1,29 @@
 import { getTransactionsByAccountId } from "@/api/transactionService";
-import { Transaction } from "@/types/transactionEntities";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { TransactionParams } from "@/types/transactionEntities";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 
-export function useTransactionData(accountId: string | null | undefined) {
+export function useTransactionsData(
+  accountId: string | null | undefined,
+  params: Omit<TransactionParams, "page">
+) {
   const queryClient = useQueryClient();
 
-  const queryResult = useQuery<Transaction[] | null>({
-    queryKey: ["transactions", accountId],
-    queryFn: async (): Promise<Transaction[] | null> => {
+  const queryResult = useInfiniteQuery({
+    queryKey: ["transactions", accountId, params],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam }: { pageParam: number }) => {
       if (!accountId) return null;
-      return await getTransactionsByAccountId(accountId);
+      return await getTransactionsByAccountId(accountId, {
+        ...params,
+        page: pageParam,
+      });
+    },
+    getNextPageParam: (lastPage) => {
+      if (!lastPage) return undefined;
+      const { pagination } = lastPage;
+      return pagination.page < pagination.totalPages
+        ? pagination.page + 1
+        : undefined;
     },
     enabled: !!accountId,
   });
@@ -19,10 +33,13 @@ export function useTransactionData(accountId: string | null | undefined) {
       queryKey: ["transactions", accountId],
     });
   };
+  const allTransactions =
+    queryResult.data?.pages.flatMap((page) => page?.transactions ?? []) ?? [];
 
   return {
     ...queryResult,
-    transactions: queryResult.data || null,
+    allTransactions,
+    transactionsPages: queryResult.data?.pages || [],
     invalidateTransactionsQuery,
   };
 }

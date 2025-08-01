@@ -4,37 +4,46 @@ export interface Transaction {
   amount: string;
   description: string;
   transaction_date: string;
-  category_id: string;
-  category_name: TransactionCategoryName;
+  category: TransactionCategory;
+  attachment?: string;
+}
+export interface TransactionParams {
+  page?: number;
+  pageSize?: number;
+  order?: "asc" | "desc";
+  category?: TransactionCategory;
+  maxAmount?: string;
+  minAmount?: string;
+}
+export interface TransactionPaginated {
+  transactions: Transaction[];
+  pagination: {
+    page: number;
+    totalPages: number;
+    totalTransactions: number;
+  };
 }
 export interface TransactionCreate {
-  accountId: string;
-  amount: number;
-  description: string;
-  transactionDate: string;
-  categoryId: string;
-}
-export interface TransactionDelete {
-  transactionId: string;
-  accountId: string;
-}
-export interface TransactionEdit {
-  id: string;
-  categoryId: string;
-  amount: number;
-  description: string;
-  transactionDate: string;
-}
-
-export interface TransactionFormState {
-  categoryId: string;
+  account_id: string;
   amount: string;
   description: string;
+  category: TransactionCategory;
+  attachment?: string;
 }
-
-// Transaction Category
-export type TransactionCategoryName = "Entrada" | "Saída";
-export interface TransactionCategory {
-  id: string;
-  name: TransactionCategoryName;
+export interface TransactionEdit {
+  amount: string;
+  description: string;
+  category: TransactionCategory;
+  attachment?: string;
+}
+export interface TransactionFormState {
+  amount: string;
+  description: string;
+  category: string;
+  attachment?: File | string;
+}
+export type TransactionCategory = "entrada" | "saida";
+export interface TransactionCategoryOption {
+  id: TransactionCategory;
+  name: "Entrada" | "Saída";
 }
