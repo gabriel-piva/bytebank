@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/transfers",
-        destination: `${process.env.ANGULAR_MF_URL || "http://localhost:4201"}/transfers`,
+        destination: `${process.env.ANGULAR_MF_URL || "http://localhost:4201"}/transfers/`,
       },
       {
         source: "/transfers/:path*",
