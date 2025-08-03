@@ -1,9 +1,9 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-const PORT = 4201;
+const PORT = process.env.PORT || 4201;
 
-// Middleware para adicionar headers que permitem iframe
+// Middleware para adicionar headers que permitem iframe e CORS
 app.use((req, res, next) => {
   res.header("X-Frame-Options", "ALLOWALL");
   res.header("Content-Security-Policy", "frame-ancestors *");
@@ -16,12 +16,30 @@ app.use((req, res, next) => {
   next();
 });
 
-// Servir arquivos estáticos do build Angular
-app.use(express.static(path.join(__dirname, "dist/transfers-mf/browser")));
+// Servir arquivos estáticos do build Angular com prefixo
+app.use(
+  "/transfers-static",
+  express.static(path.join(__dirname, "dist/transfers-mf/browser")),
+);
 
-// Fallback para SPA - redirecionar todas as rotas para index.html
-app.get("*", (req, res) => {
+// Servir a aplicação Angular sob o prefixo /transfers
+app.use(
+  "/transfers",
+  express.static(path.join(__dirname, "dist/transfers-mf/browser")),
+);
+
+// Fallback para SPA - redirecionar rotas do transfers para index.html
+app.get("/transfers/*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist/transfers-mf/browser/index.html"));
+});
+
+app.get("/transfers", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist/transfers-mf/browser/index.html"));
+});
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", service: "transfers-mf" });
 });
 
 app.listen(PORT, "0.0.0.0", () => {

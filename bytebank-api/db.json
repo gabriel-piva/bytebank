@@ -42,7 +42,7 @@
   "transactions": [
     {
       "id": "txn-1",
-      "account_id": "acc-1",
+      "account_id": "acc-2",
       "amount": "1000.00",
       "description": "Depósito inicial",
       "transaction_date": "2025-01-02T10:00:00.000Z",
@@ -50,7 +50,7 @@
     },
     {
       "id": "txn-2",
-      "account_id": "acc-1",
+      "account_id": "acc-2",
       "amount": "500.00",
       "description": "Salário",
       "transaction_date": "2025-01-05T15:00:00.000Z",
@@ -58,7 +58,7 @@
     },
     {
       "id": "txn-3",
-      "account_id": "acc-1",
+      "account_id": "acc-2",
       "amount": "250.00",
       "description": "Pagamento conta de luz",
       "transaction_date": "2025-01-10T18:00:00.000Z",
@@ -66,7 +66,7 @@
     },
     {
       "id": "txn-4",
-      "account_id": "acc-1",
+      "account_id": "acc-2",
       "amount": "150.00",
       "description": "Supermercado",
       "transaction_date": "2025-01-15T14:00:00.000Z",
@@ -74,7 +74,7 @@
     },
     {
       "id": "txn-5",
-      "account_id": "acc-1",
+      "account_id": "acc-2",
       "amount": "300.00",
       "description": "Freelance",
       "transaction_date": "2025-02-05T10:00:00.000Z",
@@ -82,7 +82,7 @@
     },
     {
       "id": "txn-6",
-      "account_id": "acc-1",
+      "account_id": "acc-2",
       "amount": "80.00",
       "description": "Uber",
       "transaction_date": "2025-02-12T20:00:00.000Z",
@@ -90,7 +90,7 @@
     },
     {
       "id": "txn-7",
-      "account_id": "acc-1",
+      "account_id": "acc-2",
       "amount": "200.00",
       "description": "Restaurante",
       "transaction_date": "2025-02-14T19:00:00.000Z",
@@ -98,7 +98,7 @@
     },
     {
       "id": "txn-8",
-      "account_id": "acc-1",
+      "account_id": "acc-2",
       "amount": "1200.00",
       "description": "Bônus",
       "transaction_date": "2025-03-01T16:00:00.000Z",

@@ -34,7 +34,7 @@ export default function HomePage() {
     <div className="flex w-full flex-col gap-4 max-md:pt-20">
       <div className="flex w-full flex-col gap-6 2xl:flex-row">
         <div className="flex flex-col rounded-xl bg-[var(--surface)] px-4 py-8 sm:px-8 md:px-10 lg:px-20 2xl:max-w-[65%] 2xl:basis-3/4">
-          {user && <DashboardHeader name={user.name} />}
+        {user && <DashboardHeader name={user.name} />}
 
           <div className="mt-8 flex flex-1 flex-col gap-6">
             <div className="w-full">

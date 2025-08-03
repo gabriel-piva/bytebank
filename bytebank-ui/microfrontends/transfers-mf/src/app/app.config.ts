@@ -1,5 +1,17 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection,
+} from '@angular/core';
+import {
+  provideRouter,
+  withEnabledBlockingInitialNavigation,
+  withHashLocation,
+} from '@angular/router';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 import { routes } from './app.routes';
 
@@ -7,6 +19,12 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes)
-  ]
+    provideHttpClient(),
+    provideRouter(
+      routes,
+      withEnabledBlockingInitialNavigation(),
+      // Usar hash location para evitar conflitos com o roteamento do Next.js
+      withHashLocation(),
+    ),
+  ],
 };
