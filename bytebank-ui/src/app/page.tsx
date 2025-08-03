@@ -7,8 +7,8 @@ export default function RootPage() {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    redirect("/login");
-  } else {
     redirect("/home");
+  } else {
+    redirect("/login");
   }
 }
