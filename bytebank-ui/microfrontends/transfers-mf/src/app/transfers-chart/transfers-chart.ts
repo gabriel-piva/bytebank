@@ -1,43 +1,81 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Chart, ChartConfiguration, ChartData, registerables } from 'chart.js';
+import {
+  AccountsService,
+  TransferStats,
+  Transaction,
+} from '../services/accounts.service';
+import { CommonModule } from '@angular/common';
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-transfers-chart',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './transfers-chart.html',
   styleUrl: './transfers-chart.scss',
 })
-export class TransfersChartComponent implements OnInit {
+export class TransfersChartComponent implements OnInit, OnDestroy {
   @ViewChild('chartCanvas', { static: true })
   chartCanvas!: ElementRef<HTMLCanvasElement>;
 
   private chart: Chart | null = null;
+  transferStats: TransferStats | null = null;
+  isLoading = true;
+  error: string | null = null;
+
+  constructor(private accountsService: AccountsService) {}
 
   ngOnInit() {
-    this.initChart();
+    this.loadTransferData();
+  }
+
+  loadTransferData() {
+    this.isLoading = true;
+    this.error = null;
+
+    // Assumindo que estamos carregando dados para o usuário com ID 2
+    this.accountsService.getTransferStats('2').subscribe({
+      next: (stats) => {
+        this.transferStats = stats;
+        this.isLoading = false;
+        this.initChart();
+      },
+      error: (err) => {
+        console.error('Erro ao carregar transferências:', err);
+        this.error = 'Erro ao carregar dados das transferências';
+        this.isLoading = false;
+      },
+    });
   }
 
   private initChart() {
+    if (!this.transferStats) return;
+
     const ctx = this.chartCanvas.nativeElement.getContext('2d');
     if (!ctx) return;
 
-    // Dados simulados de transferências por mês
     const transfersData: ChartData<'bar'> = {
-      labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+      labels: this.transferStats.monthlyData.labels,
       datasets: [
         {
-          label: 'Transferências Enviadas (R$)',
-          data: [1200, 1900, 3000, 2500, 2800, 3200],
-          backgroundColor: 'rgba(59, 130, 246, 0.8)',
-          borderColor: 'rgba(59, 130, 246, 1)',
+          label: 'Saídas (R$)',
+          data: this.transferStats.monthlyData.sent,
+          backgroundColor: 'rgba(239, 68, 68, 0.8)',
+          borderColor: 'rgba(239, 68, 68, 1)',
           borderWidth: 2,
           borderRadius: 8,
         },
         {
-          label: 'Transferências Recebidas (R$)',
-          data: [2100, 1600, 2300, 3100, 2400, 2900],
+          label: 'Entradas (R$)',
+          data: this.transferStats.monthlyData.received,
           backgroundColor: 'rgba(34, 197, 94, 0.8)',
           borderColor: 'rgba(34, 197, 94, 1)',
           borderWidth: 2,
@@ -55,7 +93,7 @@ export class TransfersChartComponent implements OnInit {
         plugins: {
           title: {
             display: true,
-            text: 'Histórico de Transferências - 2024',
+            text: 'Histórico de Transferências',
             font: {
               size: 18,
               weight: 'bold',
@@ -98,7 +136,19 @@ export class TransfersChartComponent implements OnInit {
       },
     };
 
+    // Destruir gráfico anterior se existir
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
     this.chart = new Chart(ctx, config);
+  }
+
+  formatCurrency(value: number): string {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value);
   }
 
   ngOnDestroy() {

@@ -7,13 +7,16 @@ import { useTransactionsData } from "@/hooks/useTransactionsData";
 import { Account } from "@/types/accountEntities";
 import { Transaction, TransactionParams } from "@/types/transactionEntities";
 import { User } from "@/types/userEntities";
-import { ChevronsUp } from "lucide-react";
+import { ChevronsUp, LogOut } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { FilterModal } from "../FilterModal";
+import { LogoutModal } from "../LogoutModal";
 import TransactionList from "../TransactionList/TransactionList";
+import { Button } from "@/components/ui/button";
+import { useLogout } from "@/hooks/useLogout";
 
 interface ExtractContentProps {
   user: User | null;
@@ -29,6 +32,9 @@ export default function ExtractContent({
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const logout = useLogout();
 
   const [transactionParams, setTransactionParams] = useState<TransactionParams>(
     {
@@ -203,6 +209,13 @@ export default function ExtractContent({
               </p>
             </div>
           </div>
+          <Button
+            size="icon"
+            className="rounded-full"
+            onClick={() => setIsLogoutModalOpen(true)}
+          >
+            <LogOut />
+          </Button>
         </div>
         <div
           ref={scrollContainerRef}
@@ -250,6 +263,15 @@ export default function ExtractContent({
         onClose={() => setIsFilterOpen(false)}
         onApplyFilters={handleApplyFilters}
         initialParams={transactionParams}
+      />
+      <LogoutModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={() => {
+          logout.mutate();
+          setIsLogoutModalOpen(false);
+        }}
+        isLoading={logout.isPending}
       />
     </>
   );
