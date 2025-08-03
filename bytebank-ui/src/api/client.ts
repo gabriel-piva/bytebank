@@ -5,7 +5,9 @@ export async function apiFetch(
   options: RequestInit = {}
 ): Promise<Response> {
   const url = `${API_BASE_URL}/${endpoint}`;
-  const token = localStorage.getItem("token");
+  // Verificar se estamos no cliente antes de acessar localStorage
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   const headers = {
     "Content-Type": "application/json",

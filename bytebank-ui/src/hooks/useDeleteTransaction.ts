@@ -17,7 +17,7 @@ export function useDeleteTransaction() {
       toast.success("Transação excluída com sucesso!");
     },
     onError: (error) => {
-      toast.error(`Falha ao excluir transação.`);
+      toast.error("Falha ao excluir transação.");
       console.log(
         `Falha ao excluir transação: ${error.message || "Erro desconhecido"}`
       );

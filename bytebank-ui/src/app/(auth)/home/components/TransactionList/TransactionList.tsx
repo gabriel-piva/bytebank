@@ -64,7 +64,7 @@ export default function TransactionList({
       month,
       transactions,
     }));
-  }, [transactions]);
+  }, [transactions, transactionParams]);
 
   if (transactions.length === 0) {
     return (
