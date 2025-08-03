@@ -16,10 +16,16 @@ export default function LoginPage() {
   const { mutateAsync: login, isPending, error } = useLogin();
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login({
-      email: email,
-      password: password,
-    });
+    console.log("Form submitted - attempting login with:", { email });
+    try {
+      await login({
+        email: email,
+        password: password,
+      });
+      console.log("Login mutation completed");
+    } catch (err) {
+      console.error("Login failed with error:", err);
+    }
   };
 
   return (
