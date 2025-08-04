@@ -15,7 +15,6 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      console.log("User not authenticated in AuthLayout, redirecting to login");
       router.push("/login");
     }
   }, [isAuthenticated, router]);

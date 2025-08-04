@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -65,6 +67,16 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Space Grotesk font class */
+.font-space-grotesk {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Inter font class */
+.font-inter {
+  font-family: 'Inter', sans-serif;
 }
 
 a {

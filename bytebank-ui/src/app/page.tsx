@@ -10,20 +10,15 @@ export default function RootPage() {
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    // Pequeno delay para garantir que o localStorage seja lido
     const checkAuth = () => {
-      console.log("RootPage - isAuthenticated:", isAuthenticated);
       if (isAuthenticated) {
-        console.log("Redirecting to /home");
         router.push("/home");
       } else {
-        console.log("Redirecting to /login");
-        router.push("/login");
+        router.push("/institucional");
       }
       setIsChecking(false);
     };
 
-    // Usar setTimeout para evitar problemas de hidratação
     const timer = setTimeout(checkAuth, 100);
     return () => clearTimeout(timer);
   }, [isAuthenticated, router]);

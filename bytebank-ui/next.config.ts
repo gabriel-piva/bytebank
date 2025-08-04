@@ -23,11 +23,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/transfers",
-        destination: `${process.env.ANGULAR_MF_URL || "http://localhost:4201"}/transfers/`,
+        destination: `${process.env.TRANSFERS_DOMAIN || "http://localhost:4201"}/transfers/`,
       },
       {
         source: "/transfers/:path*",
-        destination: `${process.env.ANGULAR_MF_URL || "http://localhost:4201"}/transfers/:path*`,
+        destination: `${process.env.TRANSFERS_DOMAIN || "http://localhost:4201"}/transfers/:path*`,
       },
     ];
   },

@@ -6,13 +6,10 @@ export async function login(
   password: string
 ): Promise<{ token: string; user: User }> {
   try {
-    console.log("Calling login API with email:", email);
     const response = await apiFetch("login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
-
-    console.log("Login API response status:", response.status);
 
     if (!response.ok) {
       console.error("Login API returned error status:", response.status);
@@ -20,7 +17,6 @@ export async function login(
     }
 
     const data = await response.json();
-    console.log("Login API response data:", data);
     return data;
   } catch (error) {
     console.error("Falha ao fazer login:", error);
