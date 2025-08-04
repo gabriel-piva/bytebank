@@ -36,18 +36,16 @@ export class TransfersChartComponent implements OnInit, OnDestroy {
 
   private initializeUserId(): void {
     try {
-      const storedUserId = localStorage.getItem('userId');
+      const storedUserId = localStorage.getItem('user');
       if (storedUserId) {
-        this.userId = storedUserId;
+        this.userId = JSON.parse(storedUserId).id;
       } else {
         console.warn(
           'ID do usuário não encontrado no localStorage, usando valor padrão "2"',
         );
-        this.userId = '2'; // Valor padrão
       }
     } catch (error) {
       console.error('Erro ao acessar localStorage:', error);
-      this.userId = '2'; // Fallback
     }
   }
 

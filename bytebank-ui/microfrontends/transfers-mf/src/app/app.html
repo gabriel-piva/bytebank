@@ -1,19 +1,32 @@
 <div class="app-container">
   <header class="bytebank-header">
     <div class="header-content">
-      <div class="header-brand">
+      <div class="header-brand" (click)="navigateToHome()" style="cursor: pointer">
         <img src="assets/logotipo.png" alt="ByteBank" class="header-logo" />
       </div>
-      <div class="header-text">
-        <h1>Histórico de Transferências</h1>
-        <p>Acompanhe e analise suas movimentações financeiras</p>
+
+      <div class="header-right">
+        <a (click)="navigateToHome()" class="home-link">Home</a>
+
+        <div class="header-user" *ngIf="user">
+          <div class="user-info">
+            <span class="user-name">{{ user.name }}</span>
+            <span class="user-greeting">Bem-vindo!</span>
+          </div>
+          <div class="user-avatar">
+            <img
+              [src]="user.avatar_url"
+              [alt]="user.name"
+              class="avatar-img"
+              (error)="onAvatarError($event)"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </header>
 
   <main class="main-content">
-    <app-transfers-chart></app-transfers-chart>
+    <router-outlet />
   </main>
 </div>
-
-<router-outlet />
