@@ -7,23 +7,8 @@ import { TransfersChartComponent } from '../../transfers-chart/transfers-chart';
   imports: [TransfersChartComponent],
   template: `
     <div class="dashboard-container">
-      <h1>Dashboard de Transferências</h1>
       <div class="chart-section">
         <app-transfers-chart></app-transfers-chart>
-      </div>
-      <div class="summary-section">
-        <div class="summary-card">
-          <h3>Total Transferido</h3>
-          <p class="amount">R$ 15.420,00</p>
-        </div>
-        <div class="summary-card">
-          <h3>Transferências Hoje</h3>
-          <p class="count">8</p>
-        </div>
-        <div class="summary-card">
-          <h3>Média por Transferência</h3>
-          <p class="amount">R$ 1.927,50</p>
-        </div>
       </div>
     </div>
   `,

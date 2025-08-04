@@ -1,6 +1,5 @@
 <div class="transfers-chart-container">
   <div class="chart-header">
-    <h2>Dashboard de Transferências</h2>
     <p>Acompanhe o histórico das suas transferências bancárias</p>
   </div>
 
@@ -18,12 +17,68 @@
     </button>
   </div>
 
-  <!-- Conteúdo Principal -->
-  <div *ngIf="!isLoading && !error && transferStats" class="chart-content">
-    <div class="chart-wrapper">
-      <canvas #chartCanvas width="400" height="200"></canvas>
+  <!-- Estado Sem Dados -->
+  <div *ngIf="!isLoading && !error && !hasData" class="no-data-state">
+    <div class="no-data-icon">
+      <svg
+        width="80"
+        height="80"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3 13V17C3 19.2091 4.79086 21 7 21H17C19.2091 21 21 19.2091 21 17V7C21 4.79086 19.2091 3 17 3H7C4.79086 3 3 4.79086 3 7V11"
+          stroke="#9CA3AF"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M3 10L3 12"
+          stroke="#9CA3AF"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M8 10L8 14"
+          stroke="#9CA3AF"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M13 8L13 14"
+          stroke="#9CA3AF"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M18 12L18 14"
+          stroke="#9CA3AF"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
     </div>
+    <h3>Nenhuma transferência encontrada</h3>
+    <p>Você ainda não possui transferências registradas em sua conta.</p>
+    <p>Quando realizar suas primeiras transferências, elas aparecerão aqui.</p>
+    <button (click)="loadTransferData()" class="retry-button">
+      Atualizar Dados
+    </button>
+  </div>
 
+  <!-- Debug Info: removido para produção -->
+
+  <!-- Conteúdo Principal -->
+  <div
+    *ngIf="!isLoading && !error && hasData && transferStats"
+    class="chart-content"
+  >
     <div class="chart-footer">
       <div class="stats-grid">
         <div class="stat-item">
@@ -46,6 +101,91 @@
           >
             {{ formatCurrency(transferStats.netBalance) }}
           </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráfico CHART.JS -->
+    <div class="chart-wrapper" style="margin-bottom: 40px; margin-top: 20px">
+      <div style="position: relative; height: 400px; width: 100%">
+        <canvas
+          #chartCanvas
+          style="background-color: #f9f9f9; border: 1px solid #ddd"
+        ></canvas>
+      </div>
+    </div>
+    <div class="">
+      <h3 style="text-align: center; margin-bottom: 20px">
+        Valores guardados por Mês
+      </h3>
+
+      <div class="stats-grid" style="margin-bottom: 40px">
+        <div class="stat-item best-month" *ngIf="transferStats.bestMonth">
+          <span class="stat-label">Melhor Mês</span>
+          <span class="stat-month">{{ transferStats.bestMonth.month }}</span>
+          <span class="stat-value received">
+            {{ formatCurrency(transferStats.bestMonth.balance) }}
+          </span>
+        </div>
+        <div class="stat-item worst-month" *ngIf="transferStats.worstMonth">
+          <span class="stat-label">Pior Mês</span>
+          <span class="stat-month">{{ transferStats.worstMonth.month }}</span>
+          <span class="stat-value sent">
+            {{ formatCurrency(transferStats.worstMonth.balance) }}
+          </span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Média Mensal</span>
+          <span
+            class="stat-value"
+            [ngClass]="transferStats.averageBalance >= 0 ? 'received' : 'sent'"
+          >
+            {{ formatCurrency(transferStats.averageBalance) }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- Gráfico SIMPLES COM CSS (Para testar dados) -->
+    <div class="simple-chart">
+      <div
+        *ngFor="let label of transferStats.monthlyData.labels; let i = index"
+        style="
+          margin-bottom: 20px;
+          padding: 15px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+        "
+      >
+        <h4 style="margin: 0 0 10px 0; color: #333">{{ label }}</h4>
+
+        <div style="margin-bottom: 10px">
+          <span style="color: #ed4a4c; font-weight: bold">Saídas: </span>
+          <span>{{ formatCurrency(transferStats.monthlyData.sent[i]) }}</span>
+          <div
+            [ngStyle]="{
+              background: '#ED4A4C',
+              height: '20px',
+              'width.%': (transferStats.monthlyData.sent[i] / 1500) * 100,
+              'border-radius': '4px',
+              'margin-top': '5px',
+            }"
+          ></div>
+        </div>
+
+        <div>
+          <span style="color: #22c55e; font-weight: bold">Entradas: </span>
+          <span>{{
+            formatCurrency(transferStats.monthlyData.received[i])
+          }}</span>
+          <div
+            [ngStyle]="{
+              background: '#22c55e',
+              height: '20px',
+              'width.%': (transferStats.monthlyData.received[i] / 1500) * 100,
+              'border-radius': '4px',
+              'margin-top': '5px',
+            }"
+          ></div>
         </div>
       </div>
     </div>

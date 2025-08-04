@@ -63,6 +63,14 @@
     font-weight: 500;
   }
 
+  .stat-month {
+    font-size: 16px;
+    color: #374151;
+    font-weight: 600;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+
   .stat-value {
     font-size: 20px;
     font-weight: 700;
@@ -79,9 +87,35 @@
       color: #dc2626;
     }
   }
+
+  &.best-month {
+    background: linear-gradient(135deg, #dcfdf7, #f0fdf4);
+    border: 1px solid #a7f3d0;
+
+    .stat-label {
+      color: #047857;
+    }
+
+    .stat-month {
+      color: #065f46;
+    }
+  }
+
+  &.worst-month {
+    background: linear-gradient(135deg, #fef2f2, #fef7f7);
+    border: 1px solid #fca5a5;
+
+    .stat-label {
+      color: #b91c1c;
+    }
+
+    .stat-month {
+      color: #991b1b;
+    }
+  }
 }
 
-// Estados de Loading e Erro
+// Estados de Loading, Erro e Sem Dados
 .loading-state {
   display: flex;
   flex-direction: column;
@@ -142,6 +176,60 @@
   }
 }
 
+.no-data-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: #6b7280;
+
+  .no-data-icon {
+    margin-bottom: 24px;
+    opacity: 0.7;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 12px 0;
+  }
+
+  p {
+    font-size: 16px;
+    margin: 0 0 8px 0;
+    max-width: 400px;
+    line-height: 1.5;
+
+    &:last-of-type {
+      margin-bottom: 24px;
+    }
+  }
+
+  .retry-button {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: #4b5563;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
+    }
+  }
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -186,7 +274,16 @@
   }
 
   .loading-state,
-  .error-state {
+  .error-state,
+  .no-data-state {
     padding: 40px 20px;
+
+    h3 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 14px;
+    }
   }
 }
