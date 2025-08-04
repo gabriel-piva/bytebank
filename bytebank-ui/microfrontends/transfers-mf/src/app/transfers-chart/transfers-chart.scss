@@ -2,7 +2,7 @@
   padding: 24px;
   background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
   max-width: 900px;
   margin: 0 auto;
   font-family: "Inter", sans-serif;
@@ -76,41 +76,41 @@
     font-weight: 700;
 
     &.sent {
-      color: #dc2626;
+      color: #ec4640;
     }
 
     &.received {
-      color: #059669;
+      color: #34a853;
     }
 
     &.balance {
-      color: #dc2626;
+      color: #ec4640;
     }
   }
 
   &.best-month {
-    background: linear-gradient(135deg, #dcfdf7, #f0fdf4);
-    border: 1px solid #a7f3d0;
+    background: linear-gradient(135deg, #e8f5e8, #f0fdf4);
+    border: 1px solid #86c885;
 
     .stat-label {
-      color: #047857;
+      color: #2d7a2d;
     }
 
     .stat-month {
-      color: #065f46;
+      color: #1f5f1f;
     }
   }
 
   &.worst-month {
-    background: linear-gradient(135deg, #fef2f2, #fef7f7);
-    border: 1px solid #fca5a5;
+    background: linear-gradient(135deg, #fdf2f2, #fef5f5);
+    border: 1px solid #f5a3a3;
 
     .stat-label {
-      color: #b91c1c;
+      color: #c73030;
     }
 
     .stat-month {
-      color: #991b1b;
+      color: #a02626;
     }
   }
 }
@@ -128,7 +128,7 @@
     width: 40px;
     height: 40px;
     border: 4px solid #e5e7eb;
-    border-top: 4px solid #3b82f6;
+    border-top: 4px solid #ec4640;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 16px;
@@ -155,7 +155,7 @@
   }
 
   .retry-button {
-    background: #3b82f6;
+    background: #ec4640;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -166,12 +166,12 @@
     transition: background-color 0.2s;
 
     &:hover {
-      background: #2563eb;
+      background: #d63b36;
     }
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+      box-shadow: 0 0 0 2px rgba(236, 70, 64, 0.5);
     }
   }
 }
@@ -209,7 +209,7 @@
   }
 
   .retry-button {
-    background: #6b7280;
+    background: #ec4640;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -220,12 +220,12 @@
     transition: background-color 0.2s;
 
     &:hover {
-      background: #4b5563;
+      background: #d63b36;
     }
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
+      box-shadow: 0 0 0 2px rgba(236, 70, 64, 0.5);
     }
   }
 }

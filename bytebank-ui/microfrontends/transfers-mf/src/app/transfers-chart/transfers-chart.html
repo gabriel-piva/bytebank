@@ -159,11 +159,11 @@
         <h4 style="margin: 0 0 10px 0; color: #333">{{ label }}</h4>
 
         <div style="margin-bottom: 10px">
-          <span style="color: #ed4a4c; font-weight: bold">Saídas: </span>
+          <span style="color: #ec4640; font-weight: bold">Saídas: </span>
           <span>{{ formatCurrency(transferStats.monthlyData.sent[i]) }}</span>
           <div
             [ngStyle]="{
-              background: '#ED4A4C',
+              background: '#EC4640',
               height: '20px',
               'width.%': (transferStats.monthlyData.sent[i] / 1500) * 100,
               'border-radius': '4px',
@@ -173,13 +173,13 @@
         </div>
 
         <div>
-          <span style="color: #22c55e; font-weight: bold">Entradas: </span>
+          <span style="color: #34a853; font-weight: bold">Entradas: </span>
           <span>{{
             formatCurrency(transferStats.monthlyData.received[i])
           }}</span>
           <div
             [ngStyle]="{
-              background: '#22c55e',
+              background: '#34A853',
               height: '20px',
               'width.%': (transferStats.monthlyData.received[i] / 1500) * 100,
               'border-radius': '4px',

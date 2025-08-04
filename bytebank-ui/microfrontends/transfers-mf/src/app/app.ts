@@ -4,28 +4,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
-  template: `
-    <div class="app-container">
-      <nav class="app-nav">
-        <div class="nav-brand">
-          <a href="/" class="brand-link">
-            <img src="assets/logotipo.png" alt="ByteBank" class="brand-logo" />
-          </a>
-        </div>
-        <div class="nav-links">
-          <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
-            📊 Dashboard
-          </a>
-          <a routerLink="/history" routerLinkActive="active" class="nav-link">
-            📋 Histórico
-          </a>
-        </div>
-      </nav>
-      <main class="app-main">
-        <router-outlet></router-outlet>
-      </main>
-    </div>
-  `,
+  templateUrl: './app.html',
   styles: [
     `
       .app-container {
@@ -33,114 +12,106 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
         background: #f8fafc;
       }
 
-      .app-nav {
-        background: white;
-        border-bottom: 1px solid #e2e8f0;
-        padding: 0 32px;
+      .bytebank-header {
+        background: linear-gradient(135deg, #ec4640 0%, #d63b36 100%);
+        color: white;
+        padding: 40px 32px;
+        box-shadow: 0 4px 20px rgba(236, 70, 64, 0.3);
+      }
+
+      .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        height: 80px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        gap: 32px;
       }
 
-      .nav-brand {
-        display: flex;
-        align-items: center;
+      .header-brand {
+        flex-shrink: 0;
       }
 
-      .brand-link {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        transition: transform 0.2s ease;
-      }
-
-      .brand-link:hover {
-        transform: scale(1.02);
-      }
-
-      .brand-logo {
-        height: 40px;
+      .header-logo {
+        height: 50px;
         width: auto;
         max-width: 200px;
         object-fit: contain;
+        filter: brightness(0) invert(1);
       }
 
-      .nav-links {
-        display: flex;
-        gap: 24px;
+      .header-text {
+        flex: 1;
       }
 
-      .nav-link {
-        text-decoration: none;
-        color: #64748b;
-        font-weight: 500;
-        padding: 10px 20px;
-        border-radius: 8px;
-        transition: all 0.2s ease;
-        font-size: 14px;
-        border: 1px solid transparent;
+      .header-text h1 {
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 8px 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
-      .nav-link:hover {
-        color: #2563eb;
-        background: #f1f5f9;
-        border-color: #e2e8f0;
+      .header-text p {
+        font-size: 18px;
+        margin: 0;
+        opacity: 0.9;
+        font-weight: 400;
       }
 
-      .nav-link.active {
-        color: #2563eb;
-        background: #dbeafe;
-        border-color: #bfdbfe;
-        font-weight: 600;
-      }
-
-      .app-main {
-        padding: 24px 32px;
+      .main-content {
+        padding: 32px;
         max-width: 1200px;
         margin: 0 auto;
       }
 
       @media (max-width: 768px) {
-        .app-nav {
+        .bytebank-header {
+          padding: 24px 20px;
+        }
+
+        .header-content {
           flex-direction: column;
-          height: auto;
-          padding: 16px 20px;
-          gap: 16px;
+          text-align: center;
+          gap: 20px;
         }
 
-        .nav-links {
-          gap: 12px;
-          width: 100%;
-          justify-content: center;
-          flex-wrap: wrap;
+        .header-text h1 {
+          font-size: 24px;
         }
 
-        .nav-link {
-          padding: 8px 16px;
-          font-size: 13px;
+        .header-text p {
+          font-size: 16px;
         }
 
-        .brand-logo {
-          height: 32px;
+        .header-logo {
+          height: 40px;
           max-width: 150px;
         }
 
-        .app-main {
-          padding: 16px 20px;
+        .main-content {
+          padding: 20px 16px;
         }
       }
 
       @media (max-width: 480px) {
-        .nav-links {
-          flex-direction: column;
-          gap: 8px;
+        .bytebank-header {
+          padding: 20px 16px;
         }
 
-        .nav-link {
-          text-align: center;
-          width: 100%;
+        .header-text h1 {
+          font-size: 20px;
+        }
+
+        .header-text p {
+          font-size: 14px;
+        }
+
+        .header-logo {
+          height: 32px;
+          max-width: 120px;
+        }
+
+        .main-content {
+          padding: 16px 12px;
         }
       }
     `,
