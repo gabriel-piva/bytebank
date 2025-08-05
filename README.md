@@ -168,7 +168,7 @@ Você pode optar por uma das seguintes abordagens:
 
 Após confirmar que o backend está ativo, você poderá acessar a aplicação através da API em produção no seguinte link:
  ```sh
-https://bytebank-production.up.railway.app/login
+https://bytebank-production.up.railway.app/institucional
  ```
 ## 📱 Acesso ao Aplicativo
 
