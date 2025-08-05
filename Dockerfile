@@ -10,7 +10,7 @@ COPY bytebank-ui/microfrontends/transfers-mf/package.json bytebank-ui/microfront
 RUN npm install
 
 COPY bytebank-ui/microfrontends/transfers-mf/ .
-RUN ng build --prod
+RUN ng build --configuration=production
 
 FROM node:20 AS builder
 

@@ -27,7 +27,10 @@ const nextConfig: NextConfig = {
   // Configuração para Multi-Zones
   async rewrites() {
     // Se TRANSFERS_DOMAIN estiver configurado, fazer proxy para servidor externo
-    if (process.env.TRANSFERS_DOMAIN && process.env.TRANSFERS_DOMAIN.startsWith('http')) {
+    if (
+      process.env.TRANSFERS_DOMAIN &&
+      process.env.TRANSFERS_DOMAIN.startsWith("http")
+    ) {
       return [
         {
           source: "/transfers",
@@ -39,7 +42,7 @@ const nextConfig: NextConfig = {
         },
       ];
     }
-    
+
     // Senão, servir Angular buildado localmente (arquivos estáticos)
     return [
       {
