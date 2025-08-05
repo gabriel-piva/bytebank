@@ -14,4 +14,4 @@ RUN npm install
 
 RUN npm install @angular/cli -g
 EXPOSE 4201
-CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4201", "--disable-host-check"]
+CMD ["ng", "serve", "transfers-mf"]

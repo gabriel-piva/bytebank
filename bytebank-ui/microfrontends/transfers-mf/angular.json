@@ -34,7 +34,6 @@
             ],
             "styles": ["src/styles.scss"],
             "baseHref": "/transfers/"
-            
           },
           "configurations": {
             "production": {
@@ -63,7 +62,15 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "port": 4201
+            "port": 4201,
+            "host": "0.0.0.0",
+            "allowedHosts": [
+              "all",
+              "microfrontend",
+              "localhost",
+              "172.20.0.3",
+              "172.20.0.4"
+            ]
           },
           "configurations": {
             "production": {
