@@ -2,8 +2,8 @@
 
 import "@/app/globals.css";
 import { useAuth } from "@/hooks/useAuth";
-import { redirect } from "next/navigation";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 import SideBar from "./home/components/SideBar/SideBar";
 
 interface AuthLayoutProps {
@@ -11,7 +11,24 @@ interface AuthLayoutProps {
 }
 export default function AuthLayout({ children }: AuthLayoutProps) {
   const { isAuthenticated } = useAuth();
-  if (!isAuthenticated) redirect("/login");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push("/login");
+    }
+  }, [isAuthenticated, router]);
+
+  // Sempre retornar algo para evitar problemas de hidratação
+  if (!isAuthenticated) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <p>Redirecionando para login...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex bg-[var(--background)] px-6 py-6">

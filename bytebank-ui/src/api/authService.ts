@@ -11,6 +11,11 @@ export async function login(
       body: JSON.stringify({ email, password }),
     });
 
+    if (!response.ok) {
+      console.error("Login API returned error status:", response.status);
+      throw new Error(`Login failed with status: ${response.status}`);
+    }
+
     const data = await response.json();
     return data;
   } catch (error) {

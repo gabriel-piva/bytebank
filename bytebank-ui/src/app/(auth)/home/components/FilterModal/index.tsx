@@ -27,7 +27,10 @@ export function FilterModal({
 }: FilterModalProps) {
   const [filters, setFilters] = useState<TransactionParams>(initialParams);
 
-  const handleChange = (field: keyof TransactionParams, value: any) => {
+  const handleChange = (
+    field: keyof TransactionParams,
+    value: string | undefined
+  ) => {
     if (field === "category" && value === "all") value = undefined;
     setFilters((prev) => ({ ...prev, [field]: value }));
   };

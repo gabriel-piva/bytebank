@@ -15,21 +15,22 @@ const spaceGrotesk = Space_Grotesk({
 
 const queryClient = new QueryClient();
 
-interface RootLayoutProps {
+interface InstitucionalLayoutProps {
   children: React.ReactNode;
 }
-export default function RootLayout({ children }: RootLayoutProps) {
+
+export default function InstitucionalLayout({
+  children,
+}: InstitucionalLayoutProps) {
   return (
     <html lang="pt-BR" className={spaceGrotesk.variable}>
       <body>
-        <Toaster richColors position="top-right" />
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <main className="overflow-x-hiddren min-h-screen w-full">
-              {children}
-            </main>
-          </AuthProvider>
-        </QueryClientProvider>
+        <AuthProvider>
+          <QueryClientProvider client={queryClient}>
+            <Toaster richColors position="top-right" />
+            <main className="min-h-screen w-full">{children}</main>
+          </QueryClientProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-
   --surface: #eaeaea;
   --surface-hover: #e1e1e1;
 
@@ -68,6 +69,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Space Grotesk font class */
+.font-space-grotesk {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Inter font class */
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
 a {
   color: var(--color-text-link);
   text-decoration: none;
@@ -79,7 +90,6 @@ a:hover {
 }
 
 @theme inline {
-
   --radius-sm: calc(var(--radius) - 4px);
 
   --radius-md: calc(var(--radius) - 2px);
@@ -152,7 +162,6 @@ a:hover {
 }
 
 .dark {
-
   --background: oklch(0.145 0 0);
 
   --foreground: oklch(0.985 0 0);
