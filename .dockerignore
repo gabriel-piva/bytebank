@@ -8,6 +8,5 @@ railway.json
 
 # Ignorar outros serviços
 bytebank-api
-bytebank-ui/microfrontends
 bytebank-ui/.next
 bytebank-ui/node_modules

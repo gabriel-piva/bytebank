@@ -26,8 +26,8 @@ const nextConfig: NextConfig = {
   },
   // Configuração para Multi-Zones
   async rewrites() {
-    // Se TRANSFERS_DOMAIN estiver configurado, fazer proxy
-    if (process.env.TRANSFERS_DOMAIN) {
+    // Se TRANSFERS_DOMAIN estiver configurado, fazer proxy para servidor externo
+    if (process.env.TRANSFERS_DOMAIN && process.env.TRANSFERS_DOMAIN.startsWith('http')) {
       return [
         {
           source: "/transfers",
@@ -39,8 +39,18 @@ const nextConfig: NextConfig = {
         },
       ];
     }
-    // Senão, retornar array vazio (sem proxy)
-    return [];
+    
+    // Senão, servir Angular buildado localmente (arquivos estáticos)
+    return [
+      {
+        source: "/transfers",
+        destination: "/transfers/index.html",
+      },
+      {
+        source: "/transfers/:path*",
+        destination: "/transfers/index.html",
+      },
+    ];
   },
   // Headers para permitir comunicação entre zonas
   async headers() {
