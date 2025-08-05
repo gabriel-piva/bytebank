@@ -28,8 +28,8 @@ RUN npm install
 # Copiar código do frontend
 COPY bytebank-ui/ .
 
-# Copiar o Angular buildado para pasta estática do Next.js
-COPY --from=angular-builder /app/angular/dist/transfers-mf/ ./public/transfers/
+# Copiar o Angular buildado para pasta estática do Next.js (Angular 20 gera em /browser)
+COPY --from=angular-builder /app/angular/dist/transfers-mf/browser/ ./public/transfers/
 
 RUN npm run build:next
 
