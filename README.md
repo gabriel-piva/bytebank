@@ -157,6 +157,19 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 > docker-compose up --build
 > ```
 
+### ⚙️ Como rodar em produção
+
+Para que o seu projeto funcione corretamente, é crucial que o **backend esteja em execução**.
+
+Você pode optar por uma das seguintes abordagens:
+
+1.  **Rodar o backend localmente:** Certifique-se de que a API do backend está ativa na sua máquina.
+2.  **Usar o Docker:** Se você estiver utilizando Docker, garanta que o contêiner do backend esteja em execução.
+
+Após confirmar que o backend está ativo, você poderá acessar a aplicação através da API em produção no seguinte link:
+ ```sh
+https://bytebank-production.up.railway.app/login
+ ```
 ## 📱 Acesso ao Aplicativo
 
 Após realizar a execução da aplicação localmente ou via docker, basta acessar a rota `http://localhost:3000/institucional` para ver a página inicial da aplicação, e seguir para a página de login (`http://localhost:3000/login`). Para realizar o login, basta utilizar o email *maria.eduard@bytebank.com*, com a senha _12345_, e seguir para testar as funcionalidades da aplicação!
