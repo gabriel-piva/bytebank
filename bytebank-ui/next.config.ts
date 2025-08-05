@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
       use: ["@svgr/webpack"],
     });
 
+    // Excluir pasta microfrontends do build
+    config.watchOptions = {
+      ...config.watchOptions,
+      ignored: ["**/microfrontends/**", "**/node_modules/**"],
+    };
+
     return config;
   },
   turbopack: {
