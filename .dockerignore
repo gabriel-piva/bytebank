@@ -1,0 +1,13 @@
+node_modules
+.git
+.gitignore
+README.md
+Dockerfile
+docker-compose.yml
+railway.json
+
+# Ignorar outros serviços
+bytebank-api
+bytebank-ui/microfrontends
+bytebank-ui/.next
+bytebank-ui/node_modules
