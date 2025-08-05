@@ -26,16 +26,21 @@ const nextConfig: NextConfig = {
   },
   // Configuração para Multi-Zones
   async rewrites() {
-    return [
-      {
-        source: "/transfers",
-        destination: `${process.env.TRANSFERS_DOMAIN || "http://localhost:4201"}/transfers/`,
-      },
-      {
-        source: "/transfers/:path*",
-        destination: `${process.env.TRANSFERS_DOMAIN || "http://localhost:4201"}/transfers/:path*`,
-      },
-    ];
+    // Se TRANSFERS_DOMAIN estiver configurado, fazer proxy
+    if (process.env.TRANSFERS_DOMAIN) {
+      return [
+        {
+          source: "/transfers",
+          destination: `${process.env.TRANSFERS_DOMAIN}/transfers/`,
+        },
+        {
+          source: "/transfers/:path*",
+          destination: `${process.env.TRANSFERS_DOMAIN}/transfers/:path*`,
+        },
+      ];
+    }
+    // Senão, retornar array vazio (sem proxy)
+    return [];
   },
   // Headers para permitir comunicação entre zonas
   async headers() {
