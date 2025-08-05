@@ -1,14 +1,6 @@
-# Bytebank API
+# 🏦 Bytebank: API
 
 Esta pasta contém a API do Bytebank, desenvolvida com Express e JSON Server para simular um backend completo. Essa API serve de base para o front-end do Bytebank e permite realizar operações bancárias como login, listagem de contas e transações financeiras.
-
----
-
-## 🚀 Status do Projeto
-
-<h4 align="center">
-  🚧 Em construção 🚧
-</h4>
 
 ---
 
@@ -42,6 +34,9 @@ As tecnologias utilizadas no desenvolvimento deste back-end são:
 -   `GET /transactions/accounts/:id`:
     Recebe o id da conta do bancária do usuário e retorna as transações presentes naquela conta + dados da paginação. Também é possível passar parâmetros com filtros, paginação e ordenação, que são: A página atual, tamanho da página, ordem desejada, categoria desejada, valor máximo e valor mínimo (page, pageSize, order , category, maxAmount, minAmount).
 
+-   `GET /transactions/all`:
+    Retorna todas as transações.
+
 ---
 
 ## ⚙️ Como Rodar Localmente
@@ -70,7 +65,7 @@ Siga os passos abaixo para configurar e rodar o projeto na sua máquina.
     npm install
     ```
 
-3.  **Inicie a aplicação:**
+3.  **Inicie a api:**
 
     ```sh
     npm run dev

@@ -1,14 +1,6 @@
-# Bytebank
+# 🏦 Bytebank
 
 Este é o repositório do **Bytebank**, um projeto de aplicativo bancário digital desenvolvido durante a pós-graduação em Front-End Engineering da FIAP. O objetivo é demonstrar na prática os conceitos de design system, arquitetura de front-end, responsividade e integração com APIs.
-
----
-
-## 🚀 Status do Projeto
-
-<h4 align="center">
-  🚧 Em construção 🚧
-</h4>
 
 ---
 
@@ -16,7 +8,7 @@ Este é o repositório do **Bytebank**, um projeto de aplicativo bancário digit
 
 O **Bytebank** é uma aplicação front-end que simula um sistema bancário simples, permitindo o registro e gerenciamento de transações financeiras. Ele foi construído com foco em boas práticas de desenvolvimento, responsividade e fluidez de navegação.
 
-O projeto inclui um **design system intuitivo e charmoso**, além da integração com um back-end que utiliza Docker.
+Para acessar mais detalhes do front-end e do back-end do **Bytebank**, acesse as pastas **bytebank-ui** e **bytebank-api**, e veja os arquivos README.md específicos de cada parte do projeto.
 
 ---
 
@@ -80,7 +72,6 @@ Aqui estão algumas capturas de tela da aplicação em diferentes tamanhos de te
 Certifique-se de ter as seguintes ferramentas instaladas:
 
 -   [Node.js](https://nodejs.org/)
--   [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/)
 -   [npm](https://www.npmjs.com/)
 
 ### Passos
@@ -89,24 +80,75 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 
     ```sh
     git clone https://github.com/gabriel-piva/bytebank.git
-    cd bytebank-api
     ```
 
-2.  **Inicie o back-end**: A partir da pasta do repositório da **API**, use o Docker Compose.
+2.  **Instale as dependências e inicie o back-end**: Acesse a pasta do back-end no repositório (**bytebank-api**) e execute os comandos de instalação e execução.
 
     ```sh
     cd bytebank-api
-    docker-compose up --build
+    npm install
+    npm run dev
     ```
 
     A API estará disponível em `http://localhost:3003`.
 
-3.  **Instale as dependências e inicie o front-end**: Na pasta do seu repositório (**banking-ui**), execute os comandos abaixo.
+3.  **Configure variáveis de ambiente do front-end:**: Acesse a pasta do front-end no repositório (**bytebank-ui**),
+
+    ```env
+    cd bytebank-ui
+    ```
+
+    Na raiz da pasta do front-end, crie o arquivo `.env.local` com o conteúdo:
+
+    ```env
+    NEXT_PUBLIC_API_URL=http://localhost:3003
+    TRANSFERS_DOMAIN=http://localhost:4201
+    ```
+
+4.  **Instale as dependências e inicie o front-end**: Continuando na pasta (**bytebank-ui**), execute os comandos de instalação e execução.
+
     ```sh
     npm install
     npm run dev
     ```
+
     O aplicativo estará disponível em `http://localhost:3000`.
+
+5.  **Instale as dependências e inicie o microfrontend**: Acesse a pasta do microfrontend no repositório (**bytebank-ui/microfrontends/transfers-mf**) e execute os comandos de instalação e execução.
+
+    ```sh
+    cd bytebank-ui/microfrontends/transfers-mf
+    npm install
+    npm start
+    ```
+
+    O microfrontend estará disponível em `http://localhost:4201`, e via proxy `http://localhost:3000/transfers`.
+
+    \*Mais detalhes no README.md presente na pasta do front-end.
+
+---
+
+## 📦 Como Rodar com o Docker
+
+### Pré-requisitos
+
+Certifique-se de ter as seguintes ferramentas instaladas:
+
+-   [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/)
+
+1.  **Clone o repositório**: Primeiro, clone o repositório do projeto.
+
+    ```sh
+    git clone https://github.com/gabriel-piva/bytebank.git
+    ```
+
+2.  **Rode o projeto usando o Docker**: Na pasta do repositório (**bytebank**), execute o comando abaixo.
+
+    ```sh
+    docker compose up --build -d
+    ```
+
+    A API estará disponível em `http://localhost:3003`, o microfrontend em `http://localhost:4201` e o aplicativo estará disponível em `http://localhost:3000`.
 
 > **⚠️ Observação:** Se você fizer alterações nos arquivos do Docker, lembre-se de derrubar e recriar os containers.
 >
@@ -115,8 +157,14 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 > docker-compose up --build
 > ```
 
+## 📱 Acesso ao Aplicativo
+
+Após realizar a execução da aplicação localmente ou via docker, basta acessar a rota `http://localhost:3000/institucional` para ver a página inicial da aplicação, e seguir para a página de login (`http://localhost:3000/login`). Para realizar o login, basta utilizar o email *maria.eduard@bytebank.com*, com a senha _12345_, e seguir para testar as funcionalidades da aplicação!
+
 ---
 
 ## 💙 Agradecimentos
 
-Este projeto foi desenvolvido com dedicação para fins educacionais. Sinta-se à vontade para explorar, adaptar e aprender com ele!
+Este projeto foi desenvolvido com dedicação para fins educacionais na pós-graduação em Front-End Engineering da FIAP.
+
+Sinta-se à vontade para explorar, aprender e contribuir! 🚀

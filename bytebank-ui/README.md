@@ -13,14 +13,6 @@ Este projeto implementa uma **arquitetura de micro-frontends** usando Next.js Mu
 
 ---
 
-<!-- ## 🚀 Status do Projeto
-
-<h4 align="center">
-  🚧 Em construção 🚧
-</h4> -->
-
-<!-- --- -->
-
 ## 💻 Layouts
 
 Confira como a aplicação se adapta a diferentes tamanhos de tela.
@@ -137,6 +129,7 @@ graph TB
 ### Rotas Angular Internas
 
 - **`/transfers#/dashboard`** - Dashboard principal de transferências
+
 ---
 
 ## ⚙️ Como Rodar Localmente
@@ -148,69 +141,61 @@ graph TB
 
 ### Configuração Completa
 
-1.  **Clone o repositório:**
+1.  **Clone o repositório e acesse a pasta do front-end:**
 
     ```sh
     git clone https://github.com/gabriel-piva/bytebank.git
     cd bytebank-ui
     ```
 
-2.  **Instale dependências principais:**
+2.  **Configure variáveis de ambiente:**
+
+    Crie um arquivo `.env.local` na raiz:
+
+    ```env
+    NEXT_PUBLIC_API_URL=http://localhost:3003
+    TRANSFERS_DOMAIN=http://localhost:4201
+    ```
+
+3.  **Instale dependências principais:**
 
     ```sh
     npm install
     ```
 
-3.  **Instale dependências do Angular:**
+4.  **Instale dependências do Angular:**
 
     ```sh
-    cd microfrontends/transfers-mf && npm install && cd ../..
-    ```
-
-4.  **Configure variáveis de ambiente:**
-
-    Crie um arquivo `.env.local` na raiz:
-
-    ```env
-    # Angular Transfers Microfrontend Domain
-    TRANSFERS_DOMAIN=http://localhost:4201
+    cd microfrontends/transfers-mf
+    npm install
     ```
 
 ### Execução
 
-#### Desenvolvimento (Ambas as Zonas)
+#### Desenvolvimento Next (na raiz da pasta bytebank-ui)
 
 ```sh
-npm run dev:all
+# em um terminal, na raiz da pasta bytebank-ui
+npm run dev
+```
+
+#### Desenvolvimento Angular ()
+
+```sh
+# em outro terminal, na pasta bytebank-ui/microfrontends/transfers-mf
+npm run dev
 ```
 
 - **Next.js**: http://localhost:3000
 - **Angular**: http://localhost:4201
 - **Angular via Proxy**: http://localhost:3000/transfers
 
-#### Apenas Zona Angular
-
-```sh
-npm run dev:transfers
-```
-
-#### Produção
-
-```sh
-# Build completo
-npm run build:all
-
-# Executar em produção
-npm run start:all
-```
-
 ### URLs de Acesso
 
-- **🏠 Página Principal**: http://localhost:3000
-- **🎯 Demonstração Multi-Zones**: http://localhost:3000/demo
+- **🏠 Página Principal**: http://localhost:3000/institucional
 - **🔐 Login**: http://localhost:3000/login
 - **📊 Dashboard**: http://localhost:3000/home
-- **💸 Transferências**: http://localhost:3000/transfers
+- **💸 Transferências**: http://localhost:3000/transfers (MF Angular)
 
 ---
 
@@ -287,18 +272,6 @@ if (pathname.startsWith("/transfers")) {
 
 ---
 
-## 🛠️ Scripts Disponíveis
-
-| Comando                 | Descrição                              |
-| ----------------------- | -------------------------------------- |
-| `npm run dev:all`       | Inicia Next.js (3000) + Angular (4201) |
-| `npm run dev:transfers` | Apenas zona Angular                    |
-| **Next.js** bytebank/bytebank-ui | `npm run build`                           | Build de produção do Next.js |
-| **Angular** | `cd microfrontends/transfers-mf && npm run build` | Build de produção do Angular |
-| **Ambos**   | `npm run start`                       | Execução de produção         |
-
----
-
 ## 🔍 Debug e Troubleshooting
 
 ### Logs de Desenvolvimento
@@ -310,22 +283,7 @@ O middleware inclui logs úteis para debug:
 🚀 Microfrontend Angular rodando em http://localhost:4201
 ```
 
-### Problemas Comuns
-
-1. **CORS errors**: Verificar configuração do middleware
-2. **Assets não carregam**: Conferir `deployUrl` no Angular
-3. **Roteamento não funciona**: Verificar `baseHref` e hash location
-
 ---
-<!--
-## 🔮 Próximos Passos
-
-- [ ] **Comunicação entre Zonas**: Shared state management
-- [ ] **Deploy CI/CD**: Pipeline separado por zona
-- [ ] **Monitoramento**: Métricas por zona
-- [ ] **Design System**: Componentes compartilhados
-
---- -->
 
 ## 📚 Referências
 
@@ -336,9 +294,3 @@ Esta implementação foi desenvolvida com base em:
 - [Angular Micro-frontends Best Practices](https://angular.io/guide/elements)
 
 ---
-
-## 💙 Agradecimentos
-
-Este projeto foi desenvolvido com dedicação para fins educacionais na pós-graduação em Front-End Engineering da FIAP. A implementação de multi-zones representa um estudo avançado de arquiteturas de micro-frontends escaláveis.
-
-Sinta-se à vontade para explorar, aprender e contribuir! 🚀
