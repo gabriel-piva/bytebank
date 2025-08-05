@@ -1,0 +1,28 @@
+services:
+    backend:
+        build:
+            context: ./bytebank-api
+        ports:
+            - "3003:3003"
+        restart: unless-stopped
+
+    frontend:
+        build:
+            context: ./bytebank-ui
+            args:
+                NEXT_PUBLIC_API_URL: http://localhost:3003
+                TRANSFERS_DOMAIN: http://localhost:4201/transfers/#/dashboard
+        ports:
+            - "3000:3000"
+        depends_on:
+            - backend
+        restart: unless-stopped
+
+    microfrontend:
+        build:
+            context: ./bytebank-ui/microfrontends/transfers-mf
+        ports:
+            - "4201:4201"
+        depends_on:
+            - frontend
+        restart: unless-stopped
